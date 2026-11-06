@@ -3,6 +3,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<style>html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; } html, body{ touch-action:manipulation; -webkit-tap-highlight-color:transparent; }</style>
 <title>門診掛號系統-主愛心靈診所</title>
 <style>
   *{box-sizing:border-box;}
@@ -1237,7 +1239,7 @@
   /* 視窗框：標題資訊改顯示在真正的視窗標題，不再自己畫第二層 */
   body > .titlebar{ display:none !important; }
   /* 教學按鈕放在選單列中間空白處（原本的第二層標題列已移除） */
-  .tut-launch{ top:1px !important; right:190px !important; padding:1px 14px !important; font-size:13px !important; }
+  .tut-launch{ top:.05vw !important; right:9.9vw !important; padding:.05vw .73vw !important; font-size:max(9px,.68vw) !important; }
 
   /* ===== 掛號視窗：原系統畫面套圖（1920 原尺寸截圖；背景＝截圖，按鈕＝原元素搬到同位置、顯示截圖外觀）===== */
   body.regskin{ background:#dccdb4 !important; }
@@ -9303,7 +9305,12 @@
     chk();
     function fit(){ stage.style.transform = 'scale(' + (window.innerWidth / SW) + ',' + (window.innerHeight / SH) + ')'; }
     window.addEventListener('resize', fit); fit();
+    window.addEventListener('orientationchange', function(){ setTimeout(fit, 200); setTimeout(fit, 600); });
+    if(window.visualViewport) window.visualViewport.addEventListener('resize', fit);
   })();
+
+  // 手機（小螢幕）改用固定 1366 寬版面，教學氣泡才放得下
+  (function(){ try{ var m=document.querySelector('meta[name=viewport]'); var s=Math.max(screen.width,screen.height); if(m && s<1366) m.setAttribute('content','width=1366, user-scalable=no, viewport-fit=cover'); }catch(e){} })();
 
   // 右下角圖示（圖樣不變）＝重新整理：存檔後清掉 APP 存的舊版，重新載入最新版的掛號視窗
   function regRefresh(){
@@ -9473,7 +9480,7 @@
     });
     var root = document.documentElement;
     function fit(){ root.style.setProperty('--rsx', window.innerWidth / 1920); root.style.setProperty('--rsy', window.innerHeight / 1051); }
-    window.addEventListener('resize', fit); fit();
+    window.addEventListener('resize', fit); fit(); window.addEventListener('orientationchange', function(){ setTimeout(fit, 200); setTimeout(fit, 600); }); if(window.visualViewport) window.visualViewport.addEventListener('resize', fit);
     Object.keys(CFG).forEach(function(k){
       var c = CFG[k], box = document.querySelector(c.box); if(!box) return;
       if(c.ov){ var ov = document.querySelector(c.ov); if(ov) ov.classList.add('dlgov'); }
