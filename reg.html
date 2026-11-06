@@ -1279,9 +1279,19 @@
   /* 讀卡燈號、醫師看診開關：下方米色區左邊空白處 */
   #regStage .ic-lamp{ position:absolute !important; left:23.1px; top:671.5px; margin:0 !important; zoom:1.3; }
   #regStage .doc-sw-box{ position:absolute !important; left:64.6px; top:657.7px; margin:0 !important; zoom:1.3; }
+
+  /* ===== 平板／手機：直向時提示轉成橫向 ===== */
+  #rotateHint{ display:none; position:fixed; inset:0; z-index:2147483647; background:#1d2d4f; color:#fff;
+    flex-direction:column; align-items:center; justify-content:center; gap:22px; text-align:center;
+    font:bold 24px "Microsoft JhengHei",sans-serif; padding:24px; }
+  #rotateHint .rh-ico{ font-size:78px; animation:rhTurn 1.8s ease-in-out infinite; }
+  #rotateHint .rh-sub{ font-size:16px; font-weight:normal; opacity:.8; }
+  @keyframes rhTurn{ 0%,20%{ transform:rotate(0deg); } 60%,100%{ transform:rotate(90deg); } }
+  @media (orientation:portrait) and (pointer:coarse){ #rotateHint{ display:flex; } }
 </style>
 </head>
 <body>
+<div id="rotateHint"><div class="rh-ico">📱</div><div>請將裝置轉為橫向使用</div><div class="rh-sub">展望系統模擬器只支援橫向畫面</div></div>
 
   <div class="titlebar">
     <div class="app-icon"></div>
@@ -9136,6 +9146,13 @@
   }
   // 更新後把網址上的 ?v=… 拿掉
   try{ if(/^https?:$/.test(location.protocol) && /[?&]v=\d+/.test(location.search)) history.replaceState(null, '', location.pathname); }catch(e){}
+
+  // 平板／手機：盡量鎖定橫向（Android 安裝成 APP 時由設定檔鎖定；其他情況在第一次點畫面時要求鎖定）
+  (function(){
+    function lockLand(){ try{ if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(function(){}); }catch(e){} }
+    lockLand();
+    window.addEventListener('pointerdown', function once(){ lockLand(); window.removeEventListener('pointerdown', once, true); }, true);
+  })();
 </script>
 
 </body>
