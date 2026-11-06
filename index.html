@@ -12102,8 +12102,15 @@
     // 還原內層 script 結束標籤（為避免被外層 template 標籤提前截斷而跳脫過）
     const realCloseTag = '<' + '/script>';
     tplHtml = tplHtml.replace('<\\/script>', realCloseTag);
-    const blob = new Blob([tplHtml], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
+    // 網站版（APP）：開網站上的 reg.html（APP 自己的視窗，沒有網址列、視窗框顯示掛號系統標題）
+    // 直接開本機檔案：沿用臨時網址（blob）
+    let url;
+    if(/^https?:$/.test(location.protocol)){
+      url = 'reg.html';
+    } else {
+      const blob = new Blob([tplHtml], {type:'text/html'});
+      url = URL.createObjectURL(blob);
+    }
     // 開啟即「最大化」：直接取整個可用桌面範圍
     const w = screen.availWidth;
     const h = screen.availHeight;
