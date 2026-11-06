@@ -5,6 +5,8 @@
   // ===== 可安裝成桌面 APP（只在網站版 https 啟用；直接開本機檔案時不做任何事）=====
   (function(){
     if(!/^https?:$/.test(location.protocol)) return;
+    // 「重新整理」更新後，把網址上的 ?v=… 拿掉
+    try{ if(/[?&]v=\d+/.test(location.search)) history.replaceState(null,'',location.pathname+location.hash); }catch(e){}
     var h=document.head;
     function add(tag, attrs){ var e=document.createElement(tag); for(var k in attrs) e.setAttribute(k, attrs[k]); h.appendChild(e); }
     add('link',{rel:'manifest', href:'manifest.webmanifest'});
@@ -173,6 +175,8 @@
   .oh-shell .oh-menu:hover::after{ content:''; position:absolute; inset:0; background:rgba(46,111,208,.16); }
   .oh-shell .oh-menu:active{ transform:none; }
   .oh-shell .oh-menu .home-dropdown{ top:100%; font-size:20px; line-height:normal; color:#111; cursor:default; }
+  .oh-shell #ohRefresh.spin{ animation:ohSpin .8s linear infinite; border-radius:50%; }
+  @keyframes ohSpin{ to{ transform:rotate(360deg); } }
   .oh-toast{ position:absolute; left:50%; top:46%; transform:translate(-50%,-50%); z-index:600; display:none;
     background:rgba(20,40,80,.88); color:#fff; font:bold 20px "Microsoft JhengHei",sans-serif; padding:12px 26px;
     border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35); pointer-events:none; }
@@ -1211,7 +1215,7 @@
   </div>
   <div class="btn-col oh-col" style="left:1047.6px;top:134.9px;width:155.1px;height:248.3px"><div class="oh-hit icon-btn oh-gray" style="left:0.0px;top:0.0px;width:155.1px;height:34.8px;background-position:-1047.6px -134.9px" onclick="ohNotYet(this)">簡訊服務</div><div class="oh-hit icon-btn oh-gray" style="left:0.0px;top:42.2px;width:155.1px;height:34.8px;background-position:-1047.6px -177.1px" onclick="ohNotYet(this)">異地備份</div><div class="oh-hit icon-btn oh-gray" style="left:0.0px;top:86.1px;width:155.1px;height:34.8px;background-position:-1047.6px -221.0px" onclick="ohNotYet(this)">數位訂購</div><div class="oh-hit icon-btn oh-gray" style="left:0.0px;top:129.1px;width:155.1px;height:34.8px;background-position:-1047.6px -264.0px" onclick="ohNotYet(this)">加值應用</div><div class="oh-hit icon-btn oh-gray" style="left:0.0px;top:171.3px;width:155.1px;height:34.8px;background-position:-1047.6px -306.2px" onclick="ohNotYet(this)">線上客服</div><div class="oh-hit icon-btn oh-gray" style="left:0.0px;top:213.5px;width:155.1px;height:34.8px;background-position:-1047.6px -348.4px" onclick="ohNotYet(this)">線上更版</div></div>
   <div class="btn-col oh-col oh-pillcol" style="left:1228.4px;top:136.6px;width:179.2px;height:333.5px"><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:0.0px;width:179.2px;height:38.1px;background-position:-1228.4px -136.6px" onclick="goToRegistration()"><span class="play-icon">▶</span>櫃臺掛號</div><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:48.8px;width:179.2px;height:38.1px;background-position:-1228.4px -185.4px" onclick="ohNotYet(this)"><span class="play-icon">▶</span>門診登錄</div><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:98.5px;width:179.2px;height:38.1px;background-position:-1228.4px -235.0px" onclick="goToMgmt()"><span class="play-icon">▶</span>管理支援</div><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:147.3px;width:179.2px;height:38.1px;background-position:-1228.4px -283.9px" onclick="ohNotYet(this)"><span class="play-icon">▶</span>健保批次</div><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:196.1px;width:179.2px;height:38.1px;background-position:-1228.4px -332.7px" onclick="ohNotYet(this)"><span class="play-icon">▶</span>健保申報</div><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:245.8px;width:179.2px;height:38.1px;background-position:-1228.4px -382.3px" onclick="startBackup()"><span class="play-icon">▶</span>資料備份</div><div class="oh-hit pill-btn oh-pill" style="left:0.0px;top:295.4px;width:179.2px;height:38.1px;background-position:-1228.4px -432.0px" onclick="ohNotYet(this)"><span class="play-icon">▶</span>退出</div></div>
-  <div class="oh-hit oh-small" style="left:1316.5px;top:36.4px;width:64.8px;height:36.4px;background-position:-1316.5px -36.4px" onclick="ohNotYet(this)">合約內</div><div class="oh-hit oh-small" style="left:554.3px;top:191.2px;width:49.7px;height:30.6px;background-position:-554.3px -191.2px" onclick="ohNotYet(this)">詳見1</div><div class="oh-hit oh-small" style="left:712.5px;top:333.5px;width:49.0px;height:30.6px;background-position:-712.5px -333.5px" onclick="ohNotYet(this)">詳見2</div><div class="oh-hit oh-small" style="left:894.7px;top:368.3px;width:49.7px;height:31.4px;background-position:-894.7px -368.3px" onclick="ohNotYet(this)">詳見3</div><div class="oh-hit oh-small" style="left:280.2px;top:458.5px;width:50.5px;height:31.4px;background-position:-280.2px -458.5px" onclick="ohNotYet(this)">詳見4</div><div class="oh-hit oh-small" style="left:34.6px;top:619.0px;width:146.9px;height:29.8px;background-position:-34.6px -619.0px" onclick="ohNotYet(this)">藥價</div><div class="oh-hit oh-small" style="left:418.0px;top:619.0px;width:87.4px;height:27.3px;background-position:-418.0px -619.0px" onclick="ohNotYet(this)">產品與服務</div><div class="oh-hit oh-small" style="left:506.1px;top:619.0px;width:132.6px;height:27.3px;background-position:-506.1px -619.0px" onclick="ohNotYet(this)">國健署入口網站</div><div class="oh-hit oh-small" style="left:639.4px;top:619.0px;width:227.4px;height:27.3px;background-position:-639.4px -619.0px" onclick="ohNotYet(this)">產生VPN網頁</div><div class="oh-hit oh-small" style="left:867.6px;top:619.0px;width:100.9px;height:27.3px;background-position:-867.6px -619.0px" onclick="ohNotYet(this)">展望長照平台</div><div class="oh-hit oh-small" style="left:970.8px;top:619.0px;width:23.3px;height:27.3px;background-position:-970.8px -619.0px" onclick="ohNotYet(this)">關閉連結列</div><div class="oh-hit oh-small side-tab" style="left:0.8px;top:150.6px;width:27.9px;height:105.9px;background-position:-0.8px -150.6px" onclick="ohNotYet(this)">展望快訊</div><div class="oh-hit oh-small" style="left:384.1px;top:806.1px;width:136.3px;height:38.1px;background-position:-384.1px -806.1px" onclick="ohNotYet(this)">加到我的最愛</div><div class="oh-hit oh-small" style="left:857.8px;top:804.4px;width:91.9px;height:38.9px;background-position:-857.8px -804.4px" onclick="ohNotYet(this)">Dr.News</div><div class="oh-hit oh-small" style="left:951.2px;top:810.2px;width:28.6px;height:31.4px;background-position:-951.2px -810.2px" onclick="ohNotYet(this)">重新整理</div>
+  <div class="oh-hit oh-small" style="left:1316.5px;top:36.4px;width:64.8px;height:36.4px;background-position:-1316.5px -36.4px" onclick="ohNotYet(this)">合約內</div><div class="oh-hit oh-small" style="left:554.3px;top:191.2px;width:49.7px;height:30.6px;background-position:-554.3px -191.2px" onclick="ohNotYet(this)">詳見1</div><div class="oh-hit oh-small" style="left:712.5px;top:333.5px;width:49.0px;height:30.6px;background-position:-712.5px -333.5px" onclick="ohNotYet(this)">詳見2</div><div class="oh-hit oh-small" style="left:894.7px;top:368.3px;width:49.7px;height:31.4px;background-position:-894.7px -368.3px" onclick="ohNotYet(this)">詳見3</div><div class="oh-hit oh-small" style="left:280.2px;top:458.5px;width:50.5px;height:31.4px;background-position:-280.2px -458.5px" onclick="ohNotYet(this)">詳見4</div><div class="oh-hit oh-small" style="left:34.6px;top:619.0px;width:146.9px;height:29.8px;background-position:-34.6px -619.0px" onclick="ohNotYet(this)">藥價</div><div class="oh-hit oh-small" style="left:418.0px;top:619.0px;width:87.4px;height:27.3px;background-position:-418.0px -619.0px" onclick="ohNotYet(this)">產品與服務</div><div class="oh-hit oh-small" style="left:506.1px;top:619.0px;width:132.6px;height:27.3px;background-position:-506.1px -619.0px" onclick="ohNotYet(this)">國健署入口網站</div><div class="oh-hit oh-small" style="left:639.4px;top:619.0px;width:227.4px;height:27.3px;background-position:-639.4px -619.0px" onclick="ohNotYet(this)">產生VPN網頁</div><div class="oh-hit oh-small" style="left:867.6px;top:619.0px;width:100.9px;height:27.3px;background-position:-867.6px -619.0px" onclick="ohNotYet(this)">展望長照平台</div><div class="oh-hit oh-small" style="left:970.8px;top:619.0px;width:23.3px;height:27.3px;background-position:-970.8px -619.0px" onclick="ohNotYet(this)">關閉連結列</div><div class="oh-hit oh-small side-tab" style="left:0.8px;top:150.6px;width:27.9px;height:105.9px;background-position:-0.8px -150.6px" onclick="ohNotYet(this)">展望快訊</div><div class="oh-hit oh-small" style="left:384.1px;top:806.1px;width:136.3px;height:38.1px;background-position:-384.1px -806.1px" onclick="ohNotYet(this)">加到我的最愛</div><div class="oh-hit oh-small" style="left:857.8px;top:804.4px;width:91.9px;height:38.9px;background-position:-857.8px -804.4px" onclick="ohNotYet(this)">Dr.News</div><div class="oh-hit oh-small" id="ohRefresh" title="更新到最新版本" style="left:951.2px;top:810.2px;width:28.6px;height:31.4px;background-position:-951.2px -810.2px" onclick="ohRefresh()">重新整理</div>
   <div class="oh-toast" id="ohToast"></div>
 </div>
 </div><!-- /screen-home -->
@@ -11935,6 +11939,26 @@
 
   // ===== 首頁工具欄下拉選單（H例行 / M管理） =====
 
+
+  // 首頁「重新整理」圖示：清掉 APP 存的舊版，從網路抓最新版重新載入（資料不受影響）
+  function ohRefresh(){
+    var btn = document.getElementById('ohRefresh'); if(btn) btn.classList.add('spin');
+    var t = document.getElementById('ohToast');
+    if(t){ t.textContent = '正在更新到最新版本…'; t.classList.add('show'); }
+    var tasks = [];
+    try{
+      if('serviceWorker' in navigator) tasks.push(navigator.serviceWorker.getRegistration().then(function(r){ return r && r.update(); }));
+      if(window.caches) tasks.push(caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); }));
+    }catch(e){}
+    Promise.all(tasks).catch(function(){}).then(function(){
+      setTimeout(function(){
+        if(/^https?:$/.test(location.protocol)){
+          var u = location.pathname + '?v=' + Date.now() + location.hash;
+          location.replace(u);
+        } else location.reload();
+      }, 500);
+    });
+  }
   // 首頁原系統圖像版：模擬器尚未開放的按鈕 → 小提示
   function ohNotYet(el){
     var t=document.getElementById('ohToast'); if(!t) return;
