@@ -587,6 +587,219 @@
                          padding:12px 46px; font-size:22px; font-weight:bold; cursor:pointer; letter-spacing:3px; }
   .tut-done-box .td-btn:hover{ background:#2d6cb8; }
 
+  /* ===== R1250 醫令明細報表列印 對話框 ===== */
+  .r12-overlay{ position:absolute; inset:0; z-index:80; display:flex; align-items:center; justify-content:center;
+                padding:8px 0; background:rgba(0,0,0,.12); }
+  .r12-overlay.hidden{ display:none; }
+  .r12-win{ width:900px; max-height:848px; overflow-y:auto; background:#f8d9b0; border:1px solid #8a8a8a;
+            box-shadow:0 8px 30px rgba(0,0,0,.45); font-family:"Microsoft JhengHei","微軟正黑體",sans-serif; }
+  .r12-tt{ height:30px; background:#f2f2f2; border-bottom:1px solid #bbb; display:flex; align-items:center;
+           padding:0 10px; font-size:17px; color:#111; }
+  .r12-tt .x{ margin-left:auto; cursor:pointer; padding:0 8px; font-size:17px; }
+  .r12-body{ display:flex; padding:14px 14px 12px; gap:12px; }
+  .r12-main{ flex:1; min-width:0; }
+  .r12-side{ width:160px; flex:none; display:flex; flex-direction:column; gap:10px; }
+  /* 上半：左欄位 + 右選項 */
+  .r12-top{ display:flex; gap:16px; }
+  .r12-fields{ width:400px; flex:none; }
+  .r12-fr{ display:flex; align-items:center; margin-bottom:9px; }
+  .r12-fr > label{ width:96px; flex:none; font-size:21px; color:#111; letter-spacing:1px; }
+  .r12-in{ height:34px; border:1px solid #7a7a7a; background:#fff; font-size:19px; padding:0 7px;
+           color:#111; font-family:inherit; }
+  .r12-in.date{ width:230px; }
+  .r12-in.txt{ flex:1; min-width:0; }
+  .r12-in.small{ width:96px; }
+  .r12-sel{ height:34px; border:1px solid #7a7a7a; background:#fff; font-size:17px; color:#111;
+            font-family:inherit; }
+  .r12-sel.pick{ width:44px; flex:none; }
+  .r12-sel.attr{ width:44px; flex:none; }
+  .r12-unit{ font-size:20px; margin-left:8px; }
+  /* 右側查詢條件 */
+  .r12-right{ flex:1; min-width:0; }
+  .r12-rrow{ display:flex; flex-wrap:wrap; gap:2px 26px; }
+  .r12-rd{ display:flex; align-items:center; gap:6px; font-size:20px; color:#111; cursor:pointer; }
+  .r12-rd input{ width:16px; height:16px; }
+  .r12-range{ margin-top:8px; }
+  .r12-range .rr{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .r12-range .rr label{ width:56px; font-size:20px; text-align:right; }
+  .r12-range .rr input{ flex:1; height:32px; border:1px solid #7a7a7a; background:#fff; font-size:18px; padding:0 6px; }
+  .r12-find{ margin-top:10px; border-top:1px solid #d9b98c; padding-top:8px; }
+  .r12-find .ft{ font-size:21px; margin-bottom:4px; }
+  /* 三個下拉群組 */
+  .r12-mid{ display:flex; gap:22px; margin-top:10px; }
+  .r12-mg{ text-align:center; }
+  .r12-mg .lbl{ font-size:20px; margin-bottom:4px; }
+  .r12-mg select{ width:160px; height:36px; border:1px solid #7a7a7a; background:#fff; font-size:20px;
+                  font-family:inherit; padding:0 6px; }
+  .r12-mg .hint{ color:#c00; font-size:19px; margin-top:2px; }
+  /* 顯示條件框 */
+  .r12-box{ border:1px solid #d9b98c; background:rgba(255,255,255,.28); padding:8px 12px; margin-top:10px; }
+  .r12-box .br{ display:flex; align-items:center; gap:8px; font-size:20px; margin:3px 0; }
+  .r12-box .br input[type=text]{ width:64px; height:30px; border:1px solid #7a7a7a; background:#fff;
+                                 font-size:18px; text-align:center; }
+  /* 底部：門診/住院 + 排序 */
+  .r12-bot{ display:flex; gap:26px; margin-top:10px; }
+  .r12-bl{ border:1px solid #d9b98c; padding:6px 14px; }
+  .r12-bl .br, .r12-br2 .br{ display:flex; align-items:center; gap:7px; font-size:20px; margin:4px 0; cursor:pointer; }
+  .r12-note{ color:#c00; font-size:20px; text-align:center; margin-top:10px; }
+  /* 右側按鈕 */
+  .r12-btn{ height:78px; border:2px solid #9a9a9a; background:linear-gradient(to bottom,#fafafa,#e2e2e2);
+            display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+            cursor:pointer; font-size:20px; font-weight:700; color:#c00; }
+  .r12-btn .ic{ font-size:20px; }
+  .r12-btn:hover{ background:linear-gradient(to bottom,#fff,#eee); }
+  .r12-btn.excel{ color:#1a3a8a; font-size:22px; }
+
+  /* 醫令自訂下拉：收合只顯示藥代，展開顯示藥代+藥名 */
+  .r12-dd{ position:relative; flex:1; min-width:0; }
+  .r12-dd-in{ width:100%; height:34px; border:1px solid #7a7a7a; background:#fff;
+              font-size:19px; padding:0 26px 0 7px; color:#111; font-family:inherit; cursor:pointer; }
+  .r12-dd-ar{ position:absolute; right:1px; top:1px; width:24px; height:32px; background:#e4e4e4;
+              border-left:1px solid #7a7a7a; display:flex; align-items:center; justify-content:center;
+              font-size:13px; cursor:pointer; }
+  .r12-dd-ar:hover{ background:#d4d4d4; }
+  .r12-dd-list{ display:none; position:absolute; left:0; top:34px; width:420px; max-height:280px;
+                overflow-y:auto; background:#fff; border:1px solid #666; z-index:90;
+                box-shadow:2px 4px 10px rgba(0,0,0,.35); }
+  .r12-dd-list.open{ display:block; }
+  .r12-dd-list .dd-i{ display:flex; font-size:18px; cursor:pointer; font-family:"標楷體","DFKai-SB",serif; }
+  .r12-dd-list .dd-i:hover{ background:#3a7fd0; color:#fff; }
+  .r12-dd-list .dd-i.sel{ background:#3a7fd0; color:#fff; }
+  .r12-dd-list .dd-i .c{ width:118px; flex:none; padding:2px 6px; border-right:1px solid #ccc;
+                         white-space:nowrap; overflow:hidden; }
+  .r12-dd-list .dd-i .n{ flex:1; min-width:0; padding:2px 6px; white-space:nowrap;
+                         overflow:hidden; text-overflow:ellipsis; }
+
+  /* ===== 預覽列印視窗 ===== */
+  .rv-overlay{ position:fixed; inset:0; z-index:99500; background:rgba(20,40,70,.55);
+               display:flex; align-items:center; justify-content:center;
+               font-family:"Microsoft JhengHei","微軟正黑體",sans-serif; }
+  .rv-overlay.hidden{ display:none; }
+  .rv-win{ width:1120px; max-width:96vw; height:640px; max-height:92vh; background:#4a4a4a;
+           border:2px solid #2a4a7a; display:flex; flex-direction:column; box-shadow:0 12px 40px rgba(0,0,0,.6);
+           resize:both; overflow:hidden; min-width:520px; min-height:280px; }
+  .rv-tt{ height:30px; flex:none; background:linear-gradient(to bottom,#4a86d8,#2a5fa8); color:#fff;
+          display:flex; align-items:center; padding:0 8px; font-size:16px; }
+  .rv-tt .wc{ margin-left:auto; display:flex; gap:3px; }
+  .rv-tt .wc span{ width:30px; height:22px; background:#dfdfdf; color:#222; display:flex;
+                   align-items:center; justify-content:center; font-size:14px; cursor:pointer; border:1px solid #999; }
+  .rv-tt .wc span.cl{ background:#d24a3d; color:#fff; }
+  .rv-bar{ height:38px; flex:none; background:#e8e8e8; border-bottom:1px solid #aaa;
+           display:flex; align-items:center; gap:6px; padding:0 8px; }
+  .rv-bar button{ width:30px; height:26px; border:1px solid #9a9a9a; background:linear-gradient(to bottom,#fff,#e4e4e4);
+                  cursor:pointer; font-size:14px; }
+  .rv-bar select{ height:26px; border:1px solid #9a9a9a; font-size:14px; }
+  .rv-paper{ flex:1; min-height:0; overflow:auto; background:#6a6a6a; padding:16px; }
+  .rv-page{ background:#fff; padding:22px 26px; min-width:1020px; }
+  .rv-h1{ text-align:center; font-size:20px; font-weight:700; margin-bottom:10px; font-family:"標楷體","DFKai-SB",serif; }
+  .rv-meta{ display:flex; font-size:14px; margin-bottom:2px; font-family:"標楷體","DFKai-SB",serif; }
+  .rv-meta .c1{ width:230px; } .rv-meta .c2{ flex:1; text-align:center; } .rv-meta .c3{ width:290px; text-align:right; }
+  .rv-tbl{ width:100%; border-collapse:collapse; margin-top:8px; font-size:13.5px;
+           font-family:"標楷體","DFKai-SB",serif; }
+  .rv-tbl th{ border-bottom:1.5px solid #000; padding:3px 4px; text-align:left; white-space:nowrap; font-weight:700; }
+  .rv-tbl td{ border-bottom:1px solid #ccc; padding:2px 4px; white-space:nowrap; }
+  /* 病名：限制寬度，過長以「…」遮蓋，讓其他欄位有空間 */
+  .rv-tbl th.dg, .rv-tbl td.dg{ max-width:150px; overflow:hidden; text-overflow:ellipsis; }
+  .rv-sum{ display:flex; align-items:center; border-top:2px double #000; margin-top:2px; padding:6px 4px 2px;
+           font-size:14px; font-family:"標楷體","DFKai-SB",serif; }
+  .rv-sum .s1{ width:220px; }
+  .rv-sum .s2{ margin-left:auto; padding-left:24px; }
+  .rv-sum .s3{ width:110px; text-align:right; }
+  .rv-sum .s4{ width:120px; text-align:right; }
+  .rv-end{ text-align:center; font-size:14px; margin-top:10px; font-family:"標楷體","DFKai-SB",serif; }
+  .rv-tbl td.num, .rv-tbl th.num{ text-align:right; }
+  .rv-empty{ padding:40px; text-align:center; color:#555; font-size:16px; }
+  .rv-status{ height:26px; flex:none; background:#e8e8e8; border-top:1px solid #aaa; display:flex;
+              align-items:center; padding:0 10px; font-size:13px; color:#222; gap:40px; }
+
+  /* ===== 報表輸出作業（常用報表管理）===== */
+  .rp-shell{ width:1440px; height:864px; position:relative; overflow:hidden;
+             background:linear-gradient(160deg,#2a8c86 0%,#177a75 35%,#0d5f5c 70%,#084a48 100%);
+             font-family:"Microsoft JhengHei","微軟正黑體",sans-serif; }
+  .rp-titlebar{ height:32px; background:linear-gradient(to bottom,#fdfdfd,#eaeaea); border-bottom:1px solid #b4b4b4;
+                display:flex; align-items:center; padding:0 10px; font-size:16px; color:#111; }
+  .rp-titlebar .ico{ width:20px; height:20px; background:#1f6fc4; border-radius:3px; margin-right:7px; }
+  .rp-titlebar .tt{ font-weight:700; }
+  .rp-titlebar .wc{ margin-left:auto; display:flex; }
+  .rp-titlebar .wc span{ width:50px; height:31px; display:flex; align-items:center; justify-content:center;
+                         font-size:19px; color:#333; cursor:pointer; }
+  .rp-titlebar .wc span:hover{ background:#e5e5e5; }
+  .rp-titlebar .wc span.cl:hover{ background:#e81123; color:#fff; }
+  .rp-menubar{ height:38px; background:#f0f0f0; border-bottom:1px solid #c0c0c0; display:flex;
+               align-items:center; padding:0 8px; font-size:22px; color:#111; gap:4px; position:relative; z-index:60; }
+  .rp-menubar .mi{ padding:5px 9px; cursor:pointer; white-space:nowrap; position:relative; }
+  .rp-menubar .mi:hover{ background:#cde0f5; }
+  .rp-menubar .mi.on{ background:#cde0f5; }
+  .rp-menubar .mlink{ padding:5px 8px; color:#333; cursor:pointer; white-space:nowrap; }
+  /* 下拉選單 */
+  .rp-drop{ display:none; position:absolute; left:0; top:100%; min-width:430px; background:#fff;
+            border:1px solid #7d7d7d; box-shadow:3px 4px 10px rgba(0,0,0,.4); z-index:70; padding:3px 0; }
+  .rp-drop.open{ display:block; }
+  .rp-drop .di{ padding:5px 20px; font-size:23px; color:#111; white-space:nowrap; cursor:pointer;
+                font-family:"標楷體","DFKai-SB",serif; letter-spacing:1px; }
+  .rp-drop .di:hover{ background:#3a7fd0; color:#fff; }
+  .rp-drop .di u{ text-decoration:underline; }
+  /* 內容區 */
+  .rp-body{ position:absolute; inset:70px 0 0 0; }
+  .rp-paper{ position:absolute; left:0; bottom:0; width:62%; height:56%; opacity:.16;
+             background:repeating-linear-gradient(-8deg,#fff 0 2px,transparent 2px 26px),
+                        linear-gradient(120deg,rgba(255,255,255,.9),rgba(255,255,255,.2)); }
+  .rp-monitor{ position:absolute; right:3%; top:26%; width:26%; height:44%; background:#1b1b1b;
+               border:7px solid #cfcfcf; border-radius:5px; opacity:.4; }
+  .rp-kbd{ position:absolute; right:4%; bottom:5%; width:44%; height:26%; opacity:.3; border-radius:8px;
+           background:repeating-linear-gradient(90deg,#c9c9c9 0 40px,#b2b2b2 40px 46px),
+                      repeating-linear-gradient(0deg,#c9c9c9 0 34px,#aeaeae 34px 40px);
+           transform:perspective(650px) rotateX(36deg); }
+  .rp-logo{ position:absolute; left:110px; top:18px; width:170px; height:115px; }
+  .rp-logo i{ position:absolute; display:block; background:linear-gradient(145deg,#7fc4f2,#1d6fb8);
+              border:2px solid #fff; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,.4); }
+  .rp-logo i:nth-child(1){ left:12px; top:8px;  width:60px; height:50px; }
+  .rp-logo i:nth-child(2){ left:80px; top:0;    width:54px; height:46px; }
+  .rp-logo i:nth-child(3){ left:2px;  top:58px; width:68px; height:54px; }
+  .rp-logo i:nth-child(4){ left:78px; top:54px; width:62px; height:56px; }
+  .rp-logo b{ position:absolute; left:58px; top:42px; font-size:38px; color:#fff; z-index:3;
+              text-shadow:0 2px 4px rgba(0,0,0,.45); }
+  .rp-title{ position:absolute; left:300px; top:14px; width:760px; text-align:center; }
+  .rp-title .cn{ font-size:76px; font-weight:900; letter-spacing:16px; color:#ffe14d;
+                 -webkit-text-stroke:2px #5c4300;
+                 text-shadow:3px 4px 0 #7a5c00, 0 0 20px rgba(255,220,80,.5);
+                 font-family:"標楷體","DFKai-SB",serif; }
+  .rp-title .rule{ height:2px; background:#fff; margin:4px 20px 8px; opacity:.85; }
+  .rp-title .en{ font-size:27px; color:#fff; letter-spacing:2px; font-family:Arial,Helvetica,sans-serif;
+                 text-shadow:1px 2px 3px rgba(0,0,0,.5); }
+  .rp-photo{ position:absolute; right:100px; top:38px; width:230px; height:170px; border:3px solid #fff;
+             border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.45); overflow:hidden;
+             background:linear-gradient(160deg,#8fb6d8,#4d7fa8 45%,#2e5c80); }
+  .rp-photo::before{ content:''; position:absolute; left:54%; top:26%; width:74px; height:74px; border-radius:50%;
+                     background:#f0cba8; box-shadow:0 38px 0 -6px #f0cba8; }
+  .rp-photo::after{ content:''; position:absolute; left:34%; top:56%; width:118px; height:86px; border-radius:12px;
+                    background:#fdfdfd; }
+  .rp-grid{ position:absolute; left:150px; top:230px; width:1160px;
+            display:grid; grid-template-columns:repeat(3,1fr); gap:44px 66px; z-index:5; }
+  .rp-btn{ height:78px; border-radius:44px; cursor:pointer; position:relative; padding:0 12px;
+           white-space:nowrap; overflow:hidden;
+           background:linear-gradient(to bottom,#8ad0f8 0%,#3596e2 26%,#1660ad 62%,#0e4682 100%);
+           border:3px solid #eaf5ff;
+           box-shadow:0 5px 12px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.5);
+           display:flex; align-items:center; justify-content:center;
+           font-size:30px; font-weight:700; color:#fff; letter-spacing:1px;
+           text-shadow:2px 2px 3px rgba(0,0,0,.55); font-family:"標楷體","DFKai-SB",serif; }
+  .rp-btn::before{ content:''; position:absolute; left:7%; top:8%; width:86%; height:34%; border-radius:40px 40px 60% 60%;
+                   background:linear-gradient(to bottom,rgba(255,255,255,.6),rgba(255,255,255,0)); }
+  .rp-btn:hover{ filter:brightness(1.12); }
+  .rp-btn:active{ transform:translateY(2px); }
+  .rp-exit{ height:78px; border-radius:50%; margin:0 auto; width:170px; cursor:pointer;
+            background:radial-gradient(circle at 40% 30%,#ff8a8a,#e2231a 55%,#a5140e 100%);
+            border:3px solid #ffd9d9; box-shadow:0 5px 14px rgba(0,0,0,.45), inset 0 3px 0 rgba(255,255,255,.45);
+            display:flex; align-items:center; justify-content:center;
+            font-size:32px; font-weight:800; color:#fff; letter-spacing:5px;
+            text-shadow:2px 2px 3px rgba(0,0,0,.5); font-family:"標楷體","DFKai-SB",serif; }
+  .rp-exit:hover{ filter:brightness(1.1); }
+  .rp-foot{ position:absolute; left:0; right:0; bottom:14px; text-align:center; z-index:6;
+            font-size:32px; font-weight:900; color:#ffe14d; font-family:"標楷體","DFKai-SB",serif;
+            text-shadow:2px 2px 3px rgba(0,0,0,.5); }
+  .rp-foot span{ font-size:26px; font-weight:600; color:#fff; font-family:Arial,Helvetica,sans-serif; margin-left:12px; }
+
   /* ===== 管理支援系統（後台）===== */
   .mg-shell{ width:1440px; height:864px; background:#c8c8c8; position:relative; overflow:hidden;
              font-family:"Microsoft JhengHei","微軟正黑體",sans-serif; }
@@ -806,6 +1019,19 @@
   .tut-lesson{ border:1px solid #d8d8d8; border-radius:7px; padding:8px 10px; margin-bottom:0; cursor:pointer; transition:.15s; }
   .tut-lesson:hover{ border-color:#3a7fd0; background:#f2f8ff; }
   .tut-lesson .t{ font-size:14px; font-weight:bold; color:#1a3a6a; line-height:1.35; }
+  .tut-lessons .tut-part-row{ display:flex; align-items:center; gap:5px; margin-top:5px; }
+  .tut-lessons .tut-part-row .pl{ font-size:11.5px; color:#667; flex:none; }
+  .tut-lessons select.tut-part{ flex:1; min-width:0; height:26px; font-size:12.5px; padding:1px 4px;
+                   border:1px solid #a9bcd8; border-radius:5px; background:#f7faff; color:#123;
+                   font-family:"Microsoft JhengHei","微軟正黑體",sans-serif; cursor:pointer; }
+  .tut-lesson.done{ background:#f3fbf4; border-color:#9fd3a8; }
+  .tut-done-badge{ display:inline-block; margin-left:6px; padding:0 6px; border-radius:9px; background:#2e9e5b;
+                   color:#fff; font-size:11px; font-weight:bold; line-height:18px; vertical-align:middle; }
+  .tut-progress{ grid-column:1 / -1; display:flex; align-items:center; gap:10px; padding:2px 2px 6px;
+                 font-size:13px; color:#345; }
+  .tut-progress .tp-t b{ color:#2e9e5b; font-size:15px; }
+  .tut-progress .tp-bar{ flex:1; height:8px; background:#e4e9f1; border-radius:5px; overflow:hidden; }
+  .tut-progress .tp-bar i{ display:block; height:100%; background:linear-gradient(to right,#5cc27a,#2e9e5b); }
   .tut-lesson .d{ font-size:13px; color:#777; margin-top:3px; }
   .tut-menu .tut-modes{ padding:4px 20px 10px; display:flex; align-items:center; gap:14px; font-size:14px; color:#444; flex-wrap:wrap; }
   .tut-menu .tut-modes label{ cursor:pointer; display:flex; align-items:center; gap:4px; }
@@ -818,8 +1044,33 @@
     transition:.2s; animation:tutPulse 1.4s ease-in-out infinite; }
   @keyframes tutPulse{ 0%,100%{ box-shadow:0 0 0 3px rgba(255,210,77,.4),0 0 18px rgba(255,210,77,.7);} 50%{ box-shadow:0 0 0 6px rgba(255,210,77,.25),0 0 26px rgba(255,210,77,.9);} }
   .tut-ring.hidden{ display:none; }
+  /* 教學框：要「點」的地方＝橘色閃爍框＋「👆 點這裡」；只是說明＝藍色虛線框（不可點，請按下一步） */
+  .tut-ring.act{ animation:tutBlink .8s ease-in-out infinite; }
+  @keyframes tutBlink{ 0%,100%{ border-color:#ffd24d; box-shadow:0 0 0 3px rgba(255,210,77,.55),0 0 20px rgba(255,170,0,.9);} 50%{ border-color:#ff4d1a; box-shadow:0 0 0 7px rgba(255,77,26,.35),0 0 30px rgba(255,77,26,.95);} }
+  .tut-ring.act.flash{ animation:tutBlink .25s ease-in-out 6; }
+  .tut-ring.info{ border:3px dashed #8bbcff; animation:none; box-shadow:0 0 0 3px rgba(139,188,255,.35);
+    pointer-events:auto; cursor:not-allowed; background:rgba(139,188,255,.10); }
+  .tut-ring .ring-tag{ position:absolute; left:50%; bottom:calc(100% + 7px); transform:translateX(-50%); white-space:nowrap;
+    padding:3px 11px; border-radius:13px; font:bold 13px "Microsoft JhengHei",sans-serif; pointer-events:none;
+    box-shadow:0 2px 6px rgba(0,0,0,.35); }
+  .tut-ring .ring-tag.below{ bottom:auto; top:calc(100% + 7px); }
+  .tut-ring .ring-tag:empty{ display:none; }
+  .tut-ring.act .ring-tag{ background:#ff4d1a; color:#fff; animation:tutTagBob .8s ease-in-out infinite; }
+  .tut-ring.info .ring-tag{ background:#3a7fd0; color:#fff; }
+  @keyframes tutTagBob{ 50%{ transform:translateX(-50%) translateY(-3px); } }
+  .tut-blocker{ position:fixed; inset:0; z-index:99911; background:transparent; }
+  .tut-blocker.hidden{ display:none; }
+  .tut-bubble .b-next.wait{ animation:tutNextGlow 1.3s ease-in-out infinite; }
+  @keyframes tutNextGlow{ 50%{ box-shadow:0 0 0 4px rgba(58,127,208,.35); } }
+  .tut-bubble .b-next.nudge{ animation:tutNudge .45s ease-in-out 3; background:#ff6a00; }
+  @keyframes tutNudge{ 0%,100%{ transform:none; } 25%{ transform:translateX(-6px) scale(1.1); } 75%{ transform:translateX(6px) scale(1.1); } }
+  .tut-bubble .b-foot .b-nav button{ white-space:nowrap; }
+  .tut-bubble .b-foot .b-hint{ flex:1 1 auto; min-width:0; margin-right:8px; }
+  .tut-bubble .b-hint.act{ color:#e0540f; font-weight:bold; font-size:13px; }
+  .tut-bubble .b-hint.info{ color:#2e6fc0; font-weight:bold; font-size:13px; }
+  .tut-bubble .b-hint.warn{ color:#fff; background:#ff6a00; padding:2px 7px; border-radius:4px; }
   .tut-bubble{ position:fixed; z-index:99914; width:360px; background:#fff; border-radius:10px;
-    box-shadow:0 8px 30px rgba(0,0,0,.4); font-family:"Microsoft JhengHei",sans-serif; overflow:hidden; transition:.2s; }
+    box-shadow:0 8px 30px rgba(0,0,0,.4); font-family:"Microsoft JhengHei",sans-serif; overflow:hidden; transition:left .2s, top .2s; }
   .tut-bubble.hidden{ display:none; }
   .tut-bubble .b-head{ background:linear-gradient(to right,#1f5fb0,#3a7fd0); color:#fff; padding:9px 14px; font-size:16px; font-weight:bold;
     display:flex; justify-content:space-between; align-items:center; }
@@ -884,8 +1135,8 @@
     <div class="menu-item">A申報</div>
     <div class="menu-item" onclick="toggleHomeMenu(event,'home-menu-m')">M管理
       <div class="home-dropdown" id="home-menu-m">
-        <div class="mi"><span class="u">1</span>管理支援系統</div>
-        <div class="mi"><span class="u">3</span>報表輸出系統(新)</div>
+        <div class="mi" onclick="goToMgmt(event)"><span class="u">1</span>管理支援系統</div>
+        <div class="mi" onclick="goToReport(event)"><span class="u">3</span>報表輸出系統(新)</div>
       </div>
     </div>
     <div class="menu-item">O其它</div>
@@ -1350,6 +1601,257 @@
 
 </div>
 </div><!-- /screen-regfee -->
+
+<!-- ===== 報表輸出作業（常用報表管理）===== -->
+<div id="screen-report" class="screen">
+<div class="rp-shell">
+
+  <div class="rp-titlebar">
+    <span class="ico"></span>
+    <span class="tt">報表輸出作業</span>
+    <span class="wc"><span>—</span><span>▢</span><span class="cl" onclick="rpExit()">✕</span></span>
+  </div>
+
+  <div class="rp-menubar" id="rpMenubar">
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-a')"><u>A</u>輔助申報
+      <div class="rp-drop" id="rp-menu-a">
+        <div class="di"><u>1</u>健保申報資料產生</div>
+        <div class="di"><u>2</u>申報總表列印</div>
+        <div class="di"><u>3</u>申報媒體檔製作</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-b')"><u>B</u>病歷相關
+      <div class="rp-drop" id="rp-menu-b">
+        <div class="di"><u>1</u>不活動病歷列印.</div>
+        <div class="di"><u>2</u>診斷分析報表</div>
+        <div class="di"><u>3</u>病歷處方與藥材檔查核.</div>
+        <div class="di"><u>4</u>病歷列印作業</div>
+        <div class="di" onclick="openR1250()"><u>5</u>醫令明細報表列印作業</div>
+        <div class="di"><u>6</u>用藥統計表</div>
+        <div class="di"><u>7</u>部份負擔使用報表</div>
+        <div class="di"><u>8</u>醫師用藥 － 分類統計</div>
+        <div class="di"><u>9</u>醫師別病患明細</div>
+        <div class="di"><u>A</u>期間費用證明列印</div>
+        <div class="di"><u>B</u>每日看診量填報資料表</div>
+        <div class="di"><u>C</u>查有看診未開處方</div>
+        <div class="di"><u>D</u>手術分析報表</div>
+        <div class="di"><u>E</u>檢驗交付處方及醫令清單</div>
+        <div class="di"><u>F</u>整批列印交付處方箋</div>
+        <div class="di"><u>G</u>查有看診未輸入主訴</div>
+        <div class="di"><u>H</u>戒菸初診日名單</div>
+        <div class="di"><u>I</u>復健異常檢查表</div>
+        <div class="di"><u>J</u>復健天數分析表</div>
+        <div class="di"><u>K</u>醫令執行人員暨時間明細</div>
+        <div class="di"><u>L</u>醫令用藥到期追蹤表</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-c')"><u>C</u>基本資料
+      <div class="rp-drop" id="rp-menu-c">
+        <div class="di"><u>1</u>個案基本資料列印</div>
+        <div class="di"><u>2</u>初診個案名冊</div>
+        <div class="di"><u>3</u>個案通訊清單</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-d')"><u>D</u>醫令相關
+      <div class="rp-drop" id="rp-menu-d">
+        <div class="di"><u>1</u>醫令代碼清單</div>
+        <div class="di"><u>2</u>醫令使用統計</div>
+        <div class="di"><u>3</u>自訂處方清單</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-e')"><u>E</u>統計分析
+      <div class="rp-drop" id="rp-menu-e">
+        <div class="di"><u>1</u>門診人次統計</div>
+        <div class="di"><u>2</u>收入分析報表</div>
+        <div class="di"><u>3</u>身分別統計分析</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-f')"><u>F</u>住院相關
+      <div class="rp-drop" id="rp-menu-f">
+        <div class="di"><u>1</u>住院日報表</div>
+        <div class="di"><u>2</u>床位使用統計</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-h')"><u>H</u>藥局相關
+      <div class="rp-drop" id="rp-menu-h">
+        <div class="di"><u>1</u>藥品庫存清單</div>
+        <div class="di"><u>2</u>藥品進銷存報表</div>
+        <div class="di"><u>3</u>調劑量統計表</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpToggleMenu(event,'rp-menu-s')"><u>S</u>院所特殊
+      <div class="rp-drop" id="rp-menu-s">
+        <div class="di"><u>1</u>院所自訂報表</div>
+        <div class="di"><u>2</u>特約項目清單</div>
+      </div>
+    </div>
+    <div class="mi" onclick="rpExit()"><u>X</u>退出</div>
+    <div class="mlink">［線上說明］</div>
+    <div class="mlink">［專屬回撥］</div>
+  </div>
+
+  <div class="rp-body">
+    <div class="rp-paper"></div>
+    <div class="rp-monitor"></div>
+    <div class="rp-kbd"></div>
+
+    <div class="rp-logo"><i></i><i></i><i></i><i></i><b>+</b></div>
+
+    <div class="rp-title">
+      <div class="cn">常用報表管理</div>
+      <div class="rule"></div>
+      <div class="en">Asia Vision is the Best Choice</div>
+    </div>
+
+    <div class="rp-photo"></div>
+
+    <div class="rp-grid">
+      <div class="rp-btn">特定申報資料列印.</div>
+      <div class="rp-btn">保險資料檔列印.</div>
+      <div class="rp-btn">同療程月報表.</div>
+      <div class="rp-btn">門診診療次數月報表</div>
+      <div class="rp-btn">同療(卡)資料查詢</div>
+      <div class="rp-btn">日核對表查詢</div>
+      <div class="rp-btn">月平均值統計</div>
+      <div class="rp-btn">旬報表查詢</div>
+      <div class="rp-exit" onclick="rpExit()">退出</div>
+    </div>
+
+    <div class="rp-foot">展望亞洲科技股份有限公司<span>www.vision.com.tw</span></div>
+  </div>
+
+  <!-- ===== R1250 醫令明細報表列印 ===== -->
+  <div class="r12-overlay hidden" id="r12Overlay">
+    <div class="r12-win">
+      <div class="r12-tt">R1250(醫令明細報表列印)<span class="x" onclick="closeR1250()">✕</span></div>
+      <div class="r12-body">
+        <div class="r12-main">
+
+          <div class="r12-top">
+            <div class="r12-fields">
+              <div class="r12-fr"><label>起始日期</label><input class="r12-in date" id="r12D1"></div>
+              <div class="r12-fr"><label>結束日期</label><input class="r12-in date" id="r12D2"></div>
+              <div class="r12-fr"><label>起始醫令</label>
+                <select class="r12-sel pick" id="r12P1" onchange="r12PickLetter(1)"></select>
+                <div class="r12-dd" id="r12DD1">
+                  <input class="r12-dd-in" id="r12T1" readonly onclick="r12DDToggle(1)">
+                  <span class="r12-dd-ar" onclick="r12DDToggle(1)">▾</span>
+                  <div class="r12-dd-list" id="r12L1"></div>
+                </div>
+              </div>
+              <div class="r12-fr"><label>結束醫令</label>
+                <select class="r12-sel pick" id="r12P2" onchange="r12PickLetter(2)"></select>
+                <div class="r12-dd" id="r12DD2">
+                  <input class="r12-dd-in" id="r12T2" readonly onclick="r12DDToggle(2)">
+                  <span class="r12-dd-ar" onclick="r12DDToggle(2)">▾</span>
+                  <div class="r12-dd-list" id="r12L2"></div>
+                </div>
+              </div>
+              <div class="r12-fr"><label>藥品屬性</label>
+                <select class="r12-sel attr" id="r12AttrSel"><option value=""></option><option>1</option><option>2</option></select>
+                <input class="r12-in txt" id="r12Attr">
+              </div>
+              <div class="r12-fr"><label>開藥超過</label>
+                <input class="r12-in small" id="r12Over"><span class="r12-unit">天明細</span>
+              </div>
+            </div>
+
+            <div class="r12-right">
+              <div class="r12-rrow">
+                <label class="r12-rd"><input type="radio" name="r12k" value="1" checked>1.病歷號</label>
+                <label class="r12-rd"><input type="radio" name="r12k" value="2">2.電話</label>
+                <label class="r12-rd"><input type="radio" name="r12k" value="7">7.其他收支</label>
+                <label class="r12-rd"><input type="radio" name="r12k" value="3">3.生日</label>
+                <label class="r12-rd"><input type="radio" name="r12k" value="4">4.身分證</label>
+                <label class="r12-rd"><input type="radio" name="r12k" value="5">5.姓名</label>
+                <label class="r12-rd"><input type="radio" name="r12k" value="6">6.自定碼</label>
+              </div>
+              <div class="r12-range">
+                <div class="rr"><label>起始</label><input id="r12K1"></div>
+                <div class="rr"><label>終止</label><input id="r12K2"></div>
+              </div>
+              <div class="r12-find">
+                <div class="ft">醫令搜尋方式</div>
+                <label class="r12-rd"><input type="radio" name="r12f" value="1" checked>1.藥代</label>
+                <label class="r12-rd"><input type="radio" name="r12f" value="2">2.健保碼</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="r12-mid">
+            <div class="r12-mg">
+              <div class="lbl">一般用量條件</div>
+              <select id="r12Dose"><option>全部</option><option>大於</option><option>小於</option></select>
+            </div>
+            <div class="r12-mg">
+              <div class="lbl">明細列印</div>
+              <select id="r12Detail"><option>*</option><option>1</option><option>2</option></select>
+              <div class="hint">全部</div>
+            </div>
+            <div class="r12-mg">
+              <div class="lbl">藥品調劑</div>
+              <select id="r12Disp"><option>0</option><option>1</option><option>2</option></select>
+              <div class="hint">自調</div>
+            </div>
+          </div>
+
+          <div class="r12-box">
+            <label class="br"><input type="radio" name="r12s" value="all" checked>顯示所有資料</label>
+            <label class="br"><input type="radio" name="r12s" value="same">顯示同人同醫令大於<input type="text" id="r12Same" value="1"></label>
+            <label class="br"><input type="radio" name="r12s" value="cnt">顯示同病患筆數大於<input type="text" id="r12Cnt"><span>筆</span></label>
+          </div>
+
+          <div class="r12-bot">
+            <div class="r12-bl">
+              <label class="br"><input type="radio" name="r12t" value="1" checked>1.門診</label>
+              <label class="br"><input type="radio" name="r12t" value="2">2.住院</label>
+              <label class="br"><input type="radio" name="r12t" value="3">3.全算</label>
+            </div>
+            <div class="r12-br2">
+              <label class="br"><input type="radio" name="r12o" value="a" checked>依藥代+看診日 排序</label>
+              <label class="br"><input type="radio" name="r12o" value="b">依看診日排序</label>
+              <label class="br"><input type="radio" name="r12o" value="c">醫師別+藥代+看診日期 排序</label>
+              <label class="br"><input type="radio" name="r12o" value="d">依病歷號排序</label>
+              <label class="br"><input type="checkbox" id="r12Sub">顯示小計</label>
+            </div>
+          </div>
+
+          <div class="r12-note">可統計此範圍期間內使用過此藥品的有哪些人</div>
+        </div>
+
+        <div class="r12-side">
+          <div class="r12-btn" onclick="r12Calc()"><span class="ic">🖨</span>C計算,取檔</div>
+          <div class="r12-btn" onclick="r12Preview()"><span class="ic">🖨</span>P 預覽列印</div>
+          <div class="r12-btn" onclick="r12Text()"><span class="ic">📋</span>T成文字檔</div>
+          <div class="r12-btn excel" onclick="r12Excel()">EXCEL檔</div>
+          <div class="r12-btn" onclick="closeR1250()"><span class="ic">🚪</span>X離開</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+</div><!-- /screen-report -->
+
+<!-- ===== 預覽列印視窗 ===== -->
+<div class="rv-overlay hidden" id="rvOverlay">
+  <div class="rv-win">
+    <div class="rv-tt">預覽列印
+      <span class="wc"><span>—</span><span>▢</span><span class="cl" onclick="closePreview()">✕</span></span>
+    </div>
+    <div class="rv-bar">
+      <button title="第一頁">⏮</button><button title="上一頁">◀</button>
+      <button title="複製">⧉</button>
+      <button title="下一頁">▶</button><button title="最後頁">⏭</button>
+      <select><option>100%</option><option>75%</option><option>50%</option></select>
+      <button title="設定">🔧</button><button title="列印" onclick="alert('輸出至印表機（模擬）。')">🖨</button>
+    </div>
+    <div class="rv-paper"><div class="rv-page" id="rvPage"></div></div>
+    <div class="rv-status"><span id="rvCode">R12510</span><span id="rvRec">記錄:0/0</span><span>專用</span></div>
+  </div>
+</div>
+
 
 </div><!-- /scale-wrap -->
 </div><!-- /viewport -->
@@ -2256,7 +2758,7 @@
   .rfd-loading .box{ background:#e8e8e8; border:2px solid #fff; border-bottom-color:#888; border-right-color:#888;
     padding:20px 50px; font-size:26px; color:#333; font-family:"DFKai-SB","標楷體",serif; box-shadow:0 6px 24px rgba(0,0,0,.4); }
 
-  /* ===== 虛擬個案清單收合面板（測試用，不影響主介面） ===== */
+  /* ===== 虛擬個案收合面板（測試用，不影響主介面） ===== */
   .vp-panel{ position:fixed; right:0; top:120px; z-index:9500; font-family:"Microsoft JhengHei",sans-serif; }
   /* 切換鈕：直立貼右邊緣 */
   .vp-toggle{ position:absolute; right:0; top:0; background:#2e5aa8; color:#fff; border:1px solid #1c3f7a; border-radius:6px 0 0 6px;
@@ -2268,6 +2770,8 @@
     background:#fff; border:2px solid #2e5aa8; border-radius:8px 0 0 8px; box-shadow:-6px 6px 24px rgba(0,0,0,.4);
     transition:right .25s ease; }
   .vp-content.open{ right:0; }
+  /* 展開中的面板浮到另一個面板之上（避免「重設」標籤蓋住虛擬個案清單） */
+  .vp-panel:has(.vp-content.open), .rs-panel:has(.rs-content.open){ z-index:9600; }
   .vp-content h4{ margin:0; padding:8px 12px; background:#2e5aa8; color:#fff; font-size:14px; position:sticky; top:0;
     display:flex; align-items:center; justify-content:space-between; }
   .vp-content h4 .vp-close{ cursor:pointer; font-size:18px; line-height:1; padding:0 4px; }
@@ -2288,13 +2792,13 @@
     color:#222;
   }
   /* 每 5 組交替底色（分組辨識用，與有無健保卡無關） */
-  .vp-table tr.grp-a td{ background:#eefaef; }   /* 淺綠 */
-  .vp-table tr.grp-b td{ background:#fdf2ef; }   /* 淺紅 */
+  .vp-table tr.grp-a td{ background:#e3f7e6; }   /* 男：淺綠 */
+  .vp-table tr.grp-b td{ background:#fde9e9; }   /* 女：淺紅 */
   .vp-badge{ display:inline-block; padding:1px 6px; border-radius:3px; font-size:11px; color:#fff; }
   .vp-badge.y{ background:#2e9e5b; }
   .vp-badge.n{ background:#c0673a; }
 
-  /* ===== 重設功能表（在「虛擬個案清單」鈕下方） ===== */
+  /* ===== 重設功能表（在「虛擬個案」鈕下方） ===== */
   .rs-panel{ position:fixed; right:0; top:230px; z-index:9500; font-family:"Microsoft JhengHei",sans-serif; }
   .rs-toggle{ position:absolute; right:0; top:0; background:#a83a3a; color:#fff; border:1px solid #7a1c1c; border-radius:6px 0 0 6px;
     padding:12px 8px; font-size:13px; cursor:pointer; box-shadow:-2px 2px 8px rgba(0,0,0,.3); white-space:nowrap;
@@ -2506,6 +3010,19 @@
   .tut-lesson{ border:1px solid #d8d8d8; border-radius:7px; padding:8px 10px; margin-bottom:0; cursor:pointer; transition:.15s; }
   .tut-lesson:hover{ border-color:#3a7fd0; background:#f2f8ff; }
   .tut-lesson .t{ font-size:14px; font-weight:bold; color:#1a3a6a; line-height:1.35; }
+  .tut-lessons .tut-part-row{ display:flex; align-items:center; gap:5px; margin-top:5px; }
+  .tut-lessons .tut-part-row .pl{ font-size:11.5px; color:#667; flex:none; }
+  .tut-lessons select.tut-part{ flex:1; min-width:0; height:26px; font-size:12.5px; padding:1px 4px;
+                   border:1px solid #a9bcd8; border-radius:5px; background:#f7faff; color:#123;
+                   font-family:"Microsoft JhengHei","微軟正黑體",sans-serif; cursor:pointer; }
+  .tut-lesson.done{ background:#f3fbf4; border-color:#9fd3a8; }
+  .tut-done-badge{ display:inline-block; margin-left:6px; padding:0 6px; border-radius:9px; background:#2e9e5b;
+                   color:#fff; font-size:11px; font-weight:bold; line-height:18px; vertical-align:middle; }
+  .tut-progress{ grid-column:1 / -1; display:flex; align-items:center; gap:10px; padding:2px 2px 6px;
+                 font-size:13px; color:#345; }
+  .tut-progress .tp-t b{ color:#2e9e5b; font-size:15px; }
+  .tut-progress .tp-bar{ flex:1; height:8px; background:#e4e9f1; border-radius:5px; overflow:hidden; }
+  .tut-progress .tp-bar i{ display:block; height:100%; background:linear-gradient(to right,#5cc27a,#2e9e5b); }
   .tut-lesson .d{ font-size:13px; color:#777; margin-top:3px; }
   .tut-menu .tut-modes{ padding:4px 20px 10px; display:flex; align-items:center; gap:10px; font-size:14px; color:#444; }
   .tut-menu .tut-modes label{ cursor:pointer; display:flex; align-items:center; gap:4px; }
@@ -2523,10 +3040,35 @@
     transition:.2s; animation:tutPulse 1.4s ease-in-out infinite; }
   @keyframes tutPulse{ 0%,100%{ box-shadow:0 0 0 3px rgba(255,210,77,.4),0 0 18px rgba(255,210,77,.7);} 50%{ box-shadow:0 0 0 6px rgba(255,210,77,.25),0 0 26px rgba(255,210,77,.9);} }
   .tut-ring.hidden{ display:none; }
+  /* 教學框：要「點」的地方＝橘色閃爍框＋「👆 點這裡」；只是說明＝藍色虛線框（不可點，請按下一步） */
+  .tut-ring.act{ animation:tutBlink .8s ease-in-out infinite; }
+  @keyframes tutBlink{ 0%,100%{ border-color:#ffd24d; box-shadow:0 0 0 3px rgba(255,210,77,.55),0 0 20px rgba(255,170,0,.9);} 50%{ border-color:#ff4d1a; box-shadow:0 0 0 7px rgba(255,77,26,.35),0 0 30px rgba(255,77,26,.95);} }
+  .tut-ring.act.flash{ animation:tutBlink .25s ease-in-out 6; }
+  .tut-ring.info{ border:3px dashed #8bbcff; animation:none; box-shadow:0 0 0 3px rgba(139,188,255,.35);
+    pointer-events:auto; cursor:not-allowed; background:rgba(139,188,255,.10); }
+  .tut-ring .ring-tag{ position:absolute; left:50%; bottom:calc(100% + 7px); transform:translateX(-50%); white-space:nowrap;
+    padding:3px 11px; border-radius:13px; font:bold 13px "Microsoft JhengHei",sans-serif; pointer-events:none;
+    box-shadow:0 2px 6px rgba(0,0,0,.35); }
+  .tut-ring .ring-tag.below{ bottom:auto; top:calc(100% + 7px); }
+  .tut-ring .ring-tag:empty{ display:none; }
+  .tut-ring.act .ring-tag{ background:#ff4d1a; color:#fff; animation:tutTagBob .8s ease-in-out infinite; }
+  .tut-ring.info .ring-tag{ background:#3a7fd0; color:#fff; }
+  @keyframes tutTagBob{ 50%{ transform:translateX(-50%) translateY(-3px); } }
+  .tut-blocker{ position:fixed; inset:0; z-index:9911; background:transparent; }
+  .tut-blocker.hidden{ display:none; }
+  .tut-bubble .b-next.wait{ animation:tutNextGlow 1.3s ease-in-out infinite; }
+  @keyframes tutNextGlow{ 50%{ box-shadow:0 0 0 4px rgba(58,127,208,.35); } }
+  .tut-bubble .b-next.nudge{ animation:tutNudge .45s ease-in-out 3; background:#ff6a00; }
+  @keyframes tutNudge{ 0%,100%{ transform:none; } 25%{ transform:translateX(-6px) scale(1.1); } 75%{ transform:translateX(6px) scale(1.1); } }
+  .tut-bubble .b-foot .b-nav button{ white-space:nowrap; }
+  .tut-bubble .b-foot .b-hint{ flex:1 1 auto; min-width:0; margin-right:8px; }
+  .tut-bubble .b-hint.act{ color:#e0540f; font-weight:bold; font-size:13px; }
+  .tut-bubble .b-hint.info{ color:#2e6fc0; font-weight:bold; font-size:13px; }
+  .tut-bubble .b-hint.warn{ color:#fff; background:#ff6a00; padding:2px 7px; border-radius:4px; }
 
   /* 提示氣泡 */
   .tut-bubble{ position:fixed; z-index:9914; width:340px; background:#fff; border-radius:10px;
-    box-shadow:0 8px 30px rgba(0,0,0,.4); font-family:"Microsoft JhengHei",sans-serif; overflow:hidden; transition:.2s; }
+    box-shadow:0 8px 30px rgba(0,0,0,.4); font-family:"Microsoft JhengHei",sans-serif; overflow:hidden; transition:left .2s, top .2s; }
   .tut-bubble.hidden{ display:none; }
   .tut-bubble .b-head{ background:linear-gradient(to right,#1f5fb0,#3a7fd0); color:#fff; padding:8px 14px; font-size:15px; font-weight:bold;
     display:flex; justify-content:space-between; align-items:center; }
@@ -2689,7 +3231,8 @@
   <div class="tut-shade hidden" id="tutShadeBottom"></div>
   <div class="tut-shade hidden" id="tutShadeLeft"></div>
   <div class="tut-shade hidden" id="tutShadeRight"></div>
-  <div class="tut-ring hidden" id="tutRing"></div>
+  <div class="tut-ring hidden" id="tutRing"><span class="ring-tag"></span></div>
+  <div class="tut-blocker hidden" id="tutBlocker"></div>
 
   <!-- 提示氣泡（引導模式） -->
   <div class="tut-bubble hidden" id="tutBubble">
@@ -3585,11 +4128,11 @@
     </div>
   </div>
 
-  <!-- ===== 虛擬個案清單收合面板（測試用） ===== -->
+  <!-- ===== 虛擬個案收合面板（測試用） ===== -->
   <div class="vp-panel">
-    <button class="vp-toggle" onclick="toggleVpPanel()">虛擬個案清單</button>
+    <button class="vp-toggle" onclick="toggleVpPanel()">虛擬個案</button>
     <div class="vp-content" id="vpContent">
-      <h4><span>虛擬個案清單（測試資料）</span><span class="vp-close" onclick="closeVpPanel()">✕</span></h4>
+      <h4><span>虛擬個案（測試資料）</span><span class="vp-close" onclick="closeVpPanel()">✕</span></h4>
       <div class="vp-note">可用病歷號 / 生日 / 姓名 / 身分證 / 電話 / 手機 查詢。</div>
       <table class="vp-table" id="vpTable">
         <thead>
@@ -3808,14 +4351,7 @@
   }
 
   // 取得歷史掛號紀錄（供「資料帳目核對 → 歷史統計」查詢）
-  function getHistoryRegs(dateKey){
-    var store = loadStore();
-    if(!store || !store.history) return [];
-    if(dateKey) return store.history[dateKey] || [];
-    return store.history;   // 不指定日期 → 回傳全部歷史
-  }
   // 供外部（首頁備份）取得完整儲存
-  function getFullStore(){ return loadStore(); }
 
   function calcAge(birthday){
     // birthday 格式如 077/02/21（民國），算實歲；失敗則回空字串
@@ -3933,17 +4469,6 @@
     return r.diagObj;
   }
 
-  function renderICHistory(history){
-    var tb = document.getElementById('ic-br-body');
-    if(!tb) return;
-    tb.innerHTML = '';
-    (history||[]).forEach(function(h){
-      var tr = document.createElement('tr');
-      tr.innerHTML = '<td>'+(h.date||'')+'</td><td>'+(h.shen||'')+'</td><td>'+(h.cardseq||'')+
-        '</td><td>'+(h.cat||'')+'</td><td>'+(h.symptom||'')+'</td><td>'+(h.days||'')+'</td><td>'+(h.deposit||'')+'</td>';
-      tb.appendChild(tr);
-    });
-  }
 
   // 依個案的已完成就診紀錄，渲染「最近病歷」欄位
   function renderICRecentVisits(chartNo){
@@ -4387,17 +4912,6 @@
   }
 
   // 還原預設欄寬
-  function resetColWidths(){
-    gridCols().forEach(function(c){ c.style.width = ''; });
-    var t=document.querySelector('.grid-wrap table'); if(t) t.style.width='';
-    try{
-      if(typeof canUseLocalStorage==='function' && canUseLocalStorage()){
-        localStorage.removeItem(COLW_KEY);
-      } else if(typeof proxyStore === 'function'){
-        proxyStore('remove', COLW_KEY);
-      }
-    }catch(e){}
-  }
 
   function renderGrid(){
     // 確保所有「完成」的紀錄都有處方與欠還藥（不受檢視模式影響）
@@ -4967,7 +5481,7 @@
         promptIcNewPatient(val);
         return;
       }
-      alert('查無此個案資料，請確認輸入內容。\n（可展開下方「虛擬個案清單」查看可用的測試資料）');
+      alert('查無此個案資料，請確認輸入內容。\n（可展開下方「虛擬個案」查看可用的測試資料）');
       return;
     }
     document.getElementById('queryOverlay').classList.add('hidden');
@@ -5395,19 +5909,29 @@
       days  = 30;                                    // 慢籤固定 30 天
       count = 3 + Math.floor(Math.random()*3);       // 3~5 種
     } else {
-      var mode = Math.random();
-      if(mode < 0.55){
-        // 型態1（55%）：急性小病 — 多種便宜藥、短天數 → 藥費低，多為 0 元
-        days  = 3 + Math.floor(Math.random()*5);     // 3~7 天
+      // ── 精神科開藥天數規則 ──
+      // 多以「7 的倍數」開立：7 / 14 / 21 / 28 天，最多一個月 30 天。
+      // 21 天較少（約 10%）；3、5、10 天這類非 7 倍數屬極少數（合計約 5%）。
+      //   7天 28% ／ 14天 28% ／ 28天 24% ／ 21天 10% ／ 30天 5% ／ 其他零星 5%
+      var dm = Math.random();
+      if(dm < 0.28){        days = 7;   }
+      else if(dm < 0.56){   days = 14;  }
+      else if(dm < 0.80){   days = 28;  }
+      else if(dm < 0.90){   days = 21;  }
+      else if(dm < 0.95){   days = 30;  }
+      else {
+        // 極少數的非 7 倍數（3 / 5 / 10 天）
+        var odd = [3, 5, 10];
+        days = odd[Math.floor(Math.random() * odd.length)];
+      }
+
+      // 藥品種類：短天數多為急性、種類較多；長天數多為穩定回診、種類較少
+      if(days <= 10){
         count = 3 + Math.floor(Math.random()*2);     // 3~4 種
-      } else if(mode < 0.85){
-        // 型態2（30%）：一般慢性病回診 — 少種但長天數 → 藥費中高
-        days  = 14 + Math.floor(Math.random()*17);   // 14~30 天（上限30）
-        count = 1 + Math.floor(Math.random()*2);     // 1~2 種
+      } else if(days <= 21){
+        count = 2 + Math.floor(Math.random()*3);     // 2~4 種
       } else {
-        // 型態3（15%）：多重用藥長天數 → 藥費高，易達封頂
-        days  = 28 + Math.floor(Math.random()*3);    // 28~30 天
-        count = 3 + Math.floor(Math.random()*3);     // 3~5 種
+        count = 1 + Math.floor(Math.random()*4);     // 1~4 種
       }
     }
 
@@ -5723,7 +6247,7 @@
       PATIENTS.push(newPatient);
       currentPatient._ref = newPatient;
       currentPatient.chartNo = newChartNo;
-      renderVpTable();   // 更新虛擬個案清單面板
+      renderVpTable();   // 更新虛擬個案面板
     }
     if(d.openReg){ openICForm(); }
   }
@@ -5742,7 +6266,7 @@
     openICForm();
   }
 
-  // ====== 虛擬個案清單面板 ======
+  // ====== 虛擬個案面板 ======
   function toggleVpPanel(){
     var c = document.getElementById('vpContent');
     if(!c) return;
@@ -5832,8 +6356,14 @@
     };
     PATIENTS.forEach(function(p, idx){
       var tr = document.createElement('tr');
-      // 底色：每 5 組交替（前5筆淺綠、後5筆淺紅，循環）
-      tr.className = (Math.floor(idx / 5) % 2 === 0) ? 'grp-a' : 'grp-b';
+      // 底色依性別：男 → 淺綠、女 → 淺紅
+      // （gender '1'=男、'0'=女；若無 gender 則由身分證第1碼判斷，1=男 2=女）
+      var g = p.gender;
+      if(g === undefined || g === null || g === ''){
+        var mm = String(p.id||'').match(/^[A-Z]([12])/);
+        g = mm ? (mm[1] === '1' ? '1' : '0') : '1';
+      }
+      tr.className = (String(g) === '1') ? 'grp-a' : 'grp-b';
       var sn = shenName(p.health);
       // 特殊身分（重傷/福利/榮民）用暗紅標示，與掛號清單一致
       var color = (sn==='重傷'||sn==='福利'||sn==='榮民') ? ' style="color:#8B0000;font-weight:bold"' : '';
@@ -6113,10 +6643,11 @@
   }
 
   // ====== 依身分別自動帶出掛號費/押金/欠卡等（掛號規則核心） ======
-  // 規則：
-  //  有健保卡：一般150 / 殘障(登錄-9)50 / 重傷(身1)50 / 福保(身3)0免 / 榮民(身4)150 / 慢籤領藥(類8)0免
-  //  無健保卡：掛號當下不收費（掛費顯示0，看診後依收據收）
-  //  慢籤又看診：掛費維持150（由使用者自行判斷，這裡預設慢籤=免費，可手動改）
+  // 規則（掛費依身分別自動帶出）：
+  //  健保(A)150 / 重傷(1)150（如需50手動改）/ 福保(3)0 / 榮民(4)50 / 自費診600 / 優待個案50
+  //  登錄 -9 身障、-M4 中低收：掛費「不」自動減免，由櫃台手動點掛費欄改為 50
+  //  慢籤領藥(類8)：自付自動歸0，掛費「不」自動歸0，由櫃台手動點掛費欄改為 0
+  //  欠卡：身分別維持、押金400；自費(缺卡序選取消)：身分別空白、掛費600
   function applyRegistrationRules(){
     var shen = (document.getElementById('ic-shen')||{}).value || '';
     var cat  = (document.getElementById('ic-cat')||{}).value || '';
@@ -6405,10 +6936,6 @@
   }
 
   // 病代（診斷碼）：首次產生後固定
-  function genDiagCode(r){
-    var dg = getDiagnosis(r);
-    return dg.code;
-  }
 
   function closeMedRecordQuery(){
     document.getElementById('mrqOverlay').classList.add('hidden');
@@ -7281,7 +7808,18 @@
       return;
     }
     if(!refundReady){
-      alert('健保燈號尚未就緒，請稍候燈號轉為紅燈後再退掛。');
+      // 燈號仍在閃爍（連線中）→ 等轉紅燈後自動開啟退掛作業，不中斷操作
+      if(onRefundBtn._waiting) return;
+      onRefundBtn._waiting = true;
+      var tries = 0;
+      var t = setInterval(function(){
+        if(refundReady || ++tries > 40){
+          clearInterval(t);
+          onRefundBtn._waiting = false;
+          if(refundReady && refundReg) openRfd();
+          else alert('健保燈號尚未就緒，請稍候燈號轉為紅燈後再退掛。');
+        }
+      }, 100);
       return;
     }
     openRfd();
@@ -7382,6 +7920,20 @@
 
   // 點「IC卡」→ 依燈號狀態進入掛號
   function icCardClick(){
+    // 讀卡中（燈號仍在閃爍）就點 IC卡 → 等燈號轉紅後自動接續，不跳誤導的按鍵提示
+    if(icPendingPatient && !icReady){
+      if(icCardClick._waiting) return;
+      icCardClick._waiting = true;
+      var tries = 0;
+      var t = setInterval(function(){
+        if(icReady || ++tries > 40){
+          clearInterval(t);
+          icCardClick._waiting = false;
+          if(icReady && icPendingPatient) icCardClick();
+        }
+      }, 100);
+      return;
+    }
     if(!icReady || !icPendingPatient){
       alert('請先用數字鍵盤按「＋」再按：\n\n　＋0 → 非初診掛號（隨機個案）\n　＋1 → 初診掛號（隨機新個案）\n　＋2 → 重複掛號（再點選掛號清單中的個案）\n\n燈號轉為紅燈後，再點「IC卡」。');
       return;
@@ -9209,16 +9761,6 @@
 
   };
 
-  // 教學輔助：最後一列（時序最大）的身分別中文是否為 want
-  function tutLastRowShen(want){
-    try{
-      if(!registrations.length) return false;
-      // 取最新掛入的一筆
-      var r = registrations[registrations.length-1];
-      return gridShenText(r) === want;
-    }catch(e){ return false; }
-  }
-
   // 教學用：自動安排一位初診病人並亮燈（模擬插卡，免按 +1）
   // shen: 身分別代號（A健保/1重傷/3福利/4榮民/空=自費）；disability: 是否身障
   function tutSetupIcNewPatient(shen, disability){
@@ -9258,34 +9800,7 @@
     }
   }
 
-  // 教學用（複診）：直接以指定病歷號完成查詢並開啟掛號資料輸入（複診）
-  // 教學情境為「有帶健保卡的複診」，故清除缺卡框機制，直接進表單
-  function tutRevisitToForm(chartNo){
-    try{
-      if(typeof openQueryBox==='function') openQueryBox('複診');
-      if(typeof setQueryType==='function') setQueryType('chart','病歷號');
-      var inp=document.getElementById('qbInput');
-      if(inp){ inp.value = chartNo; }
-      if(typeof doQuery==='function') doQuery();
-      // 有帶卡複診：解除缺卡框觸發，避免點畫面時跳缺卡
-      if(typeof pendingCardlessPatient!=='undefined'){ pendingCardlessPatient=null; }
-      if(typeof cardlessArmed!=='undefined'){ cardlessArmed=false; }
-    }catch(e){}
-  }
 
-  // 教學用（無卡複診）：用「1複診」查病歷號 → 進掛號資料輸入 → 主動跳「缺卡序」詢問
-  // 讓學員自己點「是(欠卡)」或「取消(自費)」
-  function tutRevisitNoCard(chartNo){
-    try{
-      if(typeof openQueryBox==='function') openQueryBox('複診');
-      if(typeof setQueryType==='function') setQueryType('chart','病歷號');
-      var inp=document.getElementById('qbInput');
-      if(inp){ inp.value = chartNo; }
-      if(typeof doQuery==='function') doQuery();
-      // 無卡複診：保留並主動跳出缺卡框
-      setTimeout(function(){ tutShowCardlessPrompt(); }, 120);
-    }catch(e){}
-  }
 
   // 教學用（無卡複診・手動查生日）：開查詢框並切到「生日」模式，讓學員自己輸入生日
   // 不自動查詢；學員按 S確定 查到病人、進表單後，於後續步驟主動跳缺卡框
@@ -9319,6 +9834,9 @@
           gender:(p.gender!==undefined?p.gender:'0'),
           patientRef:p
         });
+        // 標記為「教學示範資料」：教學結束時若仍在清單上會自動清除
+        var last = registrations[registrations.length-1];
+        if(last && last.chartNo === (p.chartNo||chartNo)) last._tutGen = true;
       }
       // 缺「有卡複診」→ 補一筆（馬宗翰，IC卡掛入）
       if(!hasViaCard){ makeReg('0000002', { viaCard:true }); }
@@ -9426,6 +9944,7 @@
       var startKey = tutDateKeyOffset(-30);      // 30 天前開立第一次
       var endKey   = addDaysKey(startKey, 90);   // 3 個月療程（3次×30日）
       var head = {
+        _tutGen:true,                    // 教學示範資料（教學結束時清除）
         hist:'複', writecard:'U', chartNo:CHART, name:p.name, birthday:p.birthday,
         idtype:'A', cat:'', cardseq:'013', status:'F', seq:'01', nurse:'',
         reg:'', regfee:'150', copay:'50', deposit:'', selfpay:'',
@@ -9462,19 +9981,6 @@
       if(reg && typeof refundPickFromGrid==='function'){ refundPickFromGrid(reg); }
       return reg;
     }catch(e){ return null; }
-  }
-  // 教學用（取消）：以病歷號開啟「無卡複診(oweCard)」個案的掛號資料（供改H取消）
-  function tutOpenRegForCancel(chartNo){
-    try{
-      var reg = registrations.find(function(r){ return r.oweCard && (!chartNo || r.chartNo===chartNo); });
-      if(!reg) reg = registrations.find(function(r){ return r.oweCard; });
-      if(reg && typeof gridOpenIC==='function'){ gridOpenIC(reg); }
-      return reg;
-    }catch(e){ return null; }
-  }
-  // 教學用（取消）：把狀態設為 H取消
-  function tutSetStatusCancel(){
-    try{ var st=document.getElementById('ic-status'); if(st){ st.value='H'; } }catch(e){}
   }
   // 教學用（退掛）：取得清單中「有卡複診(IC卡掛入)」那一列（供教學高亮＋自動捲動）
   function tutFindViaCardRow(){
@@ -9565,10 +10071,6 @@
       var hsel=document.getElementById('pf-health'); if(hsel) hsel.value = (shen!==undefined ? shen : 'A');
     }catch(e){}
   }
-  // 教學用：完成「0初診」表單 → 開啟掛號資料輸入
-  function tutSubmitNewPatient(){
-    try{ if(typeof savePatient==='function') savePatient(true); }catch(e){}
-  }
   // 教學用：套用欠卡（押金400，身分別維持）或自費（身分別空白、掛費600）
   function tutApplyCardless(mode){
     try{ if(typeof applyCardlessMode==='function') applyCardlessMode(mode); }catch(e){}
@@ -9588,41 +10090,6 @@
     }catch(e){}
   }
 
-  // 教學用：一鍵完成一次初診 IC卡掛號（自動走完刷卡→確認→掛入），供第2課快速示範各身分別
-  // 完成後回呼 done()
-  function tutQuickIcCheckin(shen, disability, status, done){
-    tutSetupIcNewPatient(shen, disability);
-    var wantShen = shen || 'A';
-    // 等燈亮 → 模擬點IC卡 → 初診確認 → 掛號資料輸入 → 確定
-    var t1 = setInterval(function(){
-      if(icReady){
-        clearInterval(t1);
-        try{ icCardClick(); }catch(e){}
-        // 初診確認框
-        var t2 = setInterval(function(){
-          var ov = document.getElementById('icNewOverlay');
-          if(ov && !ov.classList.contains('hidden')){
-            clearInterval(t2);
-            try{ icNewChoice(true); }catch(e){}
-            // 掛號資料輸入 → 設身分別/狀態 → 確定
-            var t3 = setInterval(function(){
-              var ic = document.getElementById('icOverlay');
-              if(ic && !ic.classList.contains('hidden')){
-                clearInterval(t3);
-                try{
-                  var sh=document.getElementById('ic-shen'); if(sh){ sh.value = wantShen; }
-                  var st=document.getElementById('ic-status'); if(st) st.value = (status||'A');
-                  if(typeof applyRegistrationRules==='function') applyRegistrationRules();
-                  doConfirm();
-                }catch(e){}
-                setTimeout(function(){ if(done) done(); }, 200);
-              }
-            }, 100);
-          }
-        }, 100);
-      }
-    }, 80);
-  }
 
   // 小工具：依文字找按鈕 ----------------------------------------------------
   function findBtn(txt){
@@ -9631,36 +10098,6 @@
     return null;
   }
 
-  // 教學用：自動刷卡→確認初診→開啟「掛號資料輸入」畫面並停住（不自動確定）
-  // 讓教學能在該畫面說明身分別與掛號費用，之後由使用者/教學按確定掛入
-  function tutIcToRegForm(shen, disability, done){
-    tutSetupIcNewPatient(shen, disability);
-    var wantShen = shen || 'A';
-    var t1 = setInterval(function(){
-      if(icReady){
-        clearInterval(t1);
-        try{ icCardClick(); }catch(e){}
-        var t2 = setInterval(function(){
-          var ov = document.getElementById('icNewOverlay');
-          if(ov && !ov.classList.contains('hidden')){
-            clearInterval(t2);
-            try{ icNewChoice(true); }catch(e){}
-            var t3 = setInterval(function(){
-              var ic = document.getElementById('icOverlay');
-              if(ic && !ic.classList.contains('hidden')){
-                clearInterval(t3);
-                try{
-                  var sh=document.getElementById('ic-shen'); if(sh){ sh.value = wantShen; }
-                  if(typeof applyRegistrationRules==='function') applyRegistrationRules();
-                }catch(e){}
-                setTimeout(function(){ if(done) done(); }, 150);
-              }
-            }, 80);
-          }
-        }, 80);
-      }
-    }, 80);
-  }
   function findByText(sel, txt){
     var els = document.querySelectorAll(sel);
     for(var i=0;i<els.length;i++){ if(els[i].textContent.trim().indexOf(txt)>=0) return els[i]; }
@@ -9668,24 +10105,75 @@
   }
 
   // 開啟 / 關閉課程選單 -----------------------------------------------------
+  // 十堂課總表（首頁與掛號視窗共用同一份進度紀錄：store.tutProgress）
+  var TUT_CATALOG = [
+    ['checkin','第一課'],['idtypes','第二課'],['revisit','第三課'],['nocard','第四課'],
+    ['nocardrevisit','第五課'],['refund','第六課'],['chronic','第七課'],['acctprint','第八課'],
+    ['dailyupload','第九課'],['backup','第十課']
+  ];
+  function tutProgressSummary(pg){
+    pg = pg || {};
+    var done = 0, missing = [];
+    TUT_CATALOG.forEach(function(c){ if(pg[c[0]] && pg[c[0]].done) done++; else missing.push(c[1]); });
+    return { done:done, total:TUT_CATALOG.length, missing:missing };
+  }
+  function tutProgressHeaderHtml(pg){
+    var sm = tutProgressSummary(pg);
+    var pct = Math.round(sm.done / sm.total * 100);
+    return '<div class="tut-progress"><span class="tp-t">完成進度：<b>' + sm.done + '</b> / ' + sm.total + ' 課</span>' +
+           '<span class="tp-bar"><i style="width:' + pct + '%"></i></span></div>';
+  }
+
+  function tutProgressGet(){
+    try{ var st = loadStore(); return (st && st.tutProgress) || {}; }catch(e){ return {}; }
+  }
+  // 記錄完成：整課跑完 → done；單一案例 → 記在 parts，全部案例都練過也算完成
+  function tutProgressMark(key, partIdx, partCount){
+    if(!key) return;
+    try{
+      var st = loadStore() || { history:{} };
+      var pg = st.tutProgress || {};
+      var e = pg[key] || { count:0, parts:{} };
+      if(!e.parts) e.parts = {};
+      if(partIdx === undefined || partIdx === null || partIdx < 0){
+        e.done = true;
+        e.count = (e.count || 0) + 1;
+      } else {
+        e.parts[partIdx] = true;
+        var all = true;
+        for(var i = 0; i < partCount; i++){ if(!e.parts[i]) all = false; }
+        if(all) e.done = true;
+      }
+      e.last = todayKey();
+      pg[key] = e;
+      st.tutProgress = pg;
+      writeStore(st);
+    }catch(err){}
+  }
+
   function openTutMenu(){
     var list = document.getElementById('tutLessonList');
     list.innerHTML = '';
     var shown = 0;
+    var pg = tutProgressGet();
+    list.insertAdjacentHTML('beforeend', tutProgressHeaderHtml(pg));
     Object.keys(TUT_LESSONS).forEach(function(key){
       var L = TUT_LESSONS[key];
       // 掛號視窗選單只列「可獨立開始」的課程；checkin 由首頁完整流程觸發
       if(!L.soloStart) return;
       var div = document.createElement('div');
-      div.className = 'tut-lesson';
+      var rec = pg[key] || {};
+      div.className = 'tut-lesson' + (rec.done ? ' done' : '');
+      var badge = rec.done ? '<span class="tut-done-badge">✅ 已完成</span>' : '';
       var parts = tutLessonParts(L);
       if(parts.length >= 2){
-        // 有多個身分別案例 → 右側提供下拉選單，可只練單一案例
+        // 有多個身分別案例 → 右側提供下拉選單，可只練單一案例（練過的案例打 ✓）
         var opts = '<option value="-1">全部（完整走一遍）</option>';
         parts.forEach(function(p, i){
-          opts += '<option value="'+i+'">'+ p.mark +' '+ p.label +'</option>';
+          var ck = (rec.parts && rec.parts[i]) || rec.done ? '✓ ' : '　';
+          opts += '<option value="'+i+'">'+ ck + p.mark +' '+ p.label +'</option>';
         });
-        div.innerHTML = '<div class="t">'+ L.title +'</div>' +
+        div.innerHTML = '<div class="t">'+ L.title + badge +'</div>' +
           '<div class="tut-part-row">' +
             '<span class="pl">練習範圍：</span>' +
             '<select class="tut-part" data-key="'+key+'">'+ opts +'</select>' +
@@ -9699,7 +10187,7 @@
           startTutorial(key, null, (v >= 0 ? v : undefined));
         };
       } else {
-        div.innerHTML = '<div class="t">'+ L.title +'</div>';
+        div.innerHTML = '<div class="t">'+ L.title + badge +'</div>';
         div.onclick = function(){ startTutorial(key); };
       }
       list.appendChild(div);
@@ -9772,6 +10260,9 @@
       built = tutBuildPartLesson(base, partIdx);
     }
     TUT.lesson = built || base;
+    TUT.key = key;                                           // 供完成紀錄使用
+    TUT.partIdx = built ? partIdx : null;
+    TUT.partCount = built ? tutLessonParts(base).length : 0;
     TUT.step = 0;
     TUT.active = true;
     // 步驟編號基準：課程可自訂 stepOffset/stepTotal；
@@ -9820,7 +10311,7 @@
       if(!TUT.active) return;
       tutRenderStep(s, el);
       // 把高亮目標抬到遮罩之上，確保可以點擊
-      if(el && (!s.advance || s.advance.type !== 'manual')){ tutRaise(el); }
+      if(el && (!s.advance || s.advance.type !== 'manual')){ tutRaise(el); (TUT._extras||[]).forEach(tutRaise); }
       // 若步驟允許自動略過且目標不存在，直接前進
       if(!el && s.skipIfMissing){ setTimeout(tutNext, 300); return; }
       tutArmAdvance(s, el);
@@ -9881,8 +10372,14 @@
   // 繪製高亮 + 氣泡/小卡
   function tutRenderStep(s, el){
     var steps = TUT.lesson.steps;
-    // 高亮
-    if(el){ tutHighlight(el); } else { tutClearHighlight(); }
+    var isManual = !!(s.advance && s.advance.type === 'manual');
+    var guided = (TUT.mode === 'guided');
+    // 高亮：要點的＝橘色閃爍框；說明步驟＝藍色虛線框（擋住點擊，請按下一步）
+    TUT._kind = (guided && isManual) ? 'info' : 'act';
+    TUT._extras = el ? tutStepExtras(s, el) : [];
+    if(el){ tutHighlight(el, TUT._extras, TUT._kind); } else { tutClearHighlight(); }
+    // 說明步驟且沒有目標：整個畫面擋住，避免點到別的地方脫離教學
+    document.getElementById('tutBlocker').classList.toggle('hidden', !(guided && isManual && !el));
 
     if(TUT.mode === 'guided'){
       // 引導模式：氣泡
@@ -9899,16 +10396,24 @@
       // 「下一步」按鈕：手動步驟才顯示，事件驅動步驟隱藏（等使用者操作）
       var nextBtn = document.getElementById('tutBubbleNext');
       var hint = document.getElementById('tutBubbleHint');
-      if(s.advance && s.advance.type === 'manual'){
+      nextBtn.classList.remove('nudge');
+      if(isManual){
         nextBtn.style.display = 'inline-block';
         nextBtn.textContent = s.advance.last ? '完成教學 ✓' : '下一步 ▶';
-        hint.textContent = '';
+        nextBtn.classList.add('wait');
+        hint.textContent = s.advance.last ? '' : '📖 看完按下一步 →';
+        hint.className = 'b-hint info';
       } else {
         nextBtn.style.display = 'none';
-        hint.textContent = '👆 依提示操作即可自動前進';
+        nextBtn.classList.remove('wait');
+        hint.textContent = el ? '👆 請操作閃爍框，完成自動前進' : '👆 依提示操作即可自動前進';
+        hint.className = 'b-hint act';
       }
       bub.classList.remove('hidden');
       tutPlaceBubble(bub, el);
+      // 對話框可能還在定位／動畫，稍後再校正一次位置
+      var stepAt = TUT.step, lessonAt = TUT.lesson;
+      setTimeout(function(){ if(TUT.active && TUT.step === stepAt && TUT.lesson === lessonAt) tutRelayout(); }, 380);
     } else {
       // 提示模式：底部小卡，不強制、不擋操作
       document.getElementById('tutBubble').classList.add('hidden');
@@ -10007,8 +10512,10 @@
   }
   // 氣泡「下一步」鈕（手動步驟）
   function tutManualNext(){
+    if(!TUT.active || !TUT.lesson) return;     // 沒有進行中的課程 → 忽略
     var s = TUT.lesson.steps[TUT.step];
     if(s && s.advance && s.advance.last){
+      tutProgressMark(TUT.key, TUT.partIdx, TUT.partCount);   // 記錄完成
       // 最後一步：若本課設定了 nextLesson → 詢問是否接續下一課
       var nl = TUT.lesson.nextLesson;
       var nlh = TUT.lesson.nextLessonHome;   // 下一課在「首頁」（需切回首頁視窗）
@@ -10120,6 +10627,159 @@
     tutClearHighlight();
     document.getElementById('tutBubble').classList.add('hidden');
     document.getElementById('tutTipCard').classList.add('hidden');
+    tutClearDemoData();
+  }
+
+  // 清除教學自動產生的示範資料（_tutGen），學員自己操作產生的掛號不動
+  //  - 第六課自動補的有卡/無卡名單（若尚未被退掛/取消）
+  //  - 第七課自動建立的慢籤第一次紀錄（避免日後正常刷卡一直跳慢籤提示）
+  function tutClearDemoData(){
+    try{
+      var n0 = registrations.length;
+      for(var i = registrations.length - 1; i >= 0; i--){
+        if(registrations[i] && registrations[i]._tutGen) registrations.splice(i, 1);
+      }
+      if(registrations.length !== n0){
+        renderGrid();
+        if(typeof autoSave === 'function') autoSave();
+      }
+      var store = (typeof loadStore === 'function') ? loadStore() : null;
+      if(store && store.history){
+        var changed = false;
+        Object.keys(store.history).forEach(function(k){
+          var arr = store.history[k] || [];
+          var kept = arr.filter(function(r){ return !(r && r._tutGen); });
+          if(kept.length !== arr.length){
+            changed = true;
+            if(kept.length) store.history[k] = kept; else delete store.history[k];
+          }
+        });
+        if(changed && typeof writeStore === 'function') writeStore(store);
+      }
+    }catch(e){}
+  }
+
+
+  // ===== 教學框共用工具 =====
+  // 1) 框選範圍＝目標＋步驟文字「…」點名、且在同一作業框內的按鈕（例：查生日的輸入框＋「S確定」）
+  // 2) 氣泡位置＝掃描整個畫面，絕不壓到框選範圍、盡量不壓到作業框內的按鈕／輸入框，再求靠近目標
+  function tutRectOf(el){
+    try{ var r=el.getBoundingClientRect(); return (r.width>0 && r.height>0) ? {l:r.left,t:r.top,r:r.right,b:r.bottom} : null; }
+    catch(e){ return null; }
+  }
+  function tutUnion(a,b){ if(!a) return b; if(!b) return a; return {l:Math.min(a.l,b.l),t:Math.min(a.t,b.t),r:Math.max(a.r,b.r),b:Math.max(a.b,b.b)}; }
+  function tutOverlap(a,b){
+    if(!a || !b) return 0;
+    var w=Math.min(a.r,b.r)-Math.max(a.l,b.l), h=Math.min(a.b,b.b)-Math.max(a.t,b.t);
+    return (w>0 && h>0) ? w*h : 0;
+  }
+  // 目標所在的作業框（對話框、按鈕列…）：往上找、面積小於畫面 40% 的最大容器
+  function tutCtxBox(el){
+    var W=window.innerWidth, H=window.innerHeight, best=null, p=el && el.parentElement;
+    while(p && p!==document.body && p!==document.documentElement){
+      var r=tutRectOf(p);
+      if(r){ if((r.r-r.l)*(r.b-r.t) > W*H*0.4) break; best=p; }
+      p=p.parentElement;
+    }
+    return best;
+  }
+  var TUT_POPUP_SEL = '.fee-menu, .menu-dropdown, .home-dropdown, .cal-pop';
+  // 目前畫面上「打開中的下拉選單」特徵字串；變了就重新框選、重新放氣泡
+  function tutPopupSig(){
+    var out=[], pops=document.querySelectorAll(TUT_POPUP_SEL);
+    for(var i=0;i<pops.length;i++){ var r=tutRectOf(pops[i]); if(r && getComputedStyle(pops[i]).display!=='none') out.push(i+':'+Math.round(r.l)+','+Math.round(r.t)+','+Math.round(r.r)+','+Math.round(r.b)); }
+    return out.join('|');
+  }
+  function tutNorm(s){ return String(s||'').replace(/[\s▶►✓：:]/g,''); }
+  function tutStepExtras(s, el){
+    var out=[];
+    if(!el) return out;
+    try{ if(typeof s.also==='function'){ (s.also()||[]).forEach(function(x){ if(x && tutRectOf(x)) out.push(x); }); } }catch(e){}
+    if(s.advance && s.advance.type==='manual') return out;
+    var ctx=tutCtxBox(el);
+    // 由目標彈出的下拉選單（例如掛費選單）→ 一起框進來，才點得到
+    var pops=document.querySelectorAll(TUT_POPUP_SEL);
+    for(var pi=0; pi<pops.length; pi++){
+      var pp=pops[pi];
+      if(!tutRectOf(pp) || getComputedStyle(pp).display==='none' || getComputedStyle(pp).visibility==='hidden') continue;
+      if((ctx && ctx.contains(pp)) || (el.parentElement && el.parentElement.contains(pp)) || el.contains(pp)) out.push(pp);
+    }
+    if(!ctx) return out;
+    var labels=[];
+    String(s.text||'').replace(/<[^>]+>/g,'').replace(/「([^」]{1,14})」/g, function(m,g){ labels.push(tutNorm(g)); return m; });
+    String(s.text||'').replace(/(?:按|點|點選|按下|再按)\s*「?<b>([^<]{1,14})<\/b>/g, function(m,g){ labels.push(tutNorm(g)); return m; });
+    if(!labels.length) return out;
+    var cands=ctx.querySelectorAll('button,input[type=button],input[type=submit],.btn,[onclick]');
+    for(var i=0;i<cands.length;i++){
+      var c=cands[i];
+      if(c===el || el.contains(c) || c.contains(el) || out.indexOf(c)>=0) continue;
+      var tx=tutNorm(c.textContent || c.value);
+      if(tx && labels.indexOf(tx)>=0 && tutRectOf(c)) out.push(c);
+    }
+    return out;
+  }
+  function tutBestSpot(bw, bh, hole, ctxR, skipEl){
+    var W=window.innerWidth, H=window.innerHeight, m=8;
+    if(!hole || !W || !H) return { x:Math.max(m,(W-bw)/2), y:Math.max(m,(H-bh)/2), score:0 };
+    var items=[], all=document.querySelectorAll('button,input,select,textarea,.btn,[onclick]');
+    for(var i=0;i<all.length;i++){
+      var e=all[i]; if(skipEl && skipEl.contains(e)) continue;
+      var r=tutRectOf(e); if(!r || r.r<0 || r.b<0 || r.l>W || r.t>H) continue;
+      items.push({ r:r, w:(ctxR && tutOverlap(r,ctxR)>0) ? 25 : 4 });
+    }
+    var hp={l:hole.l-12,t:hole.t-12,r:hole.r+12,b:hole.b+12};
+    var maxX=Math.max(m,W-bw-m), maxY=Math.max(m,H-bh-m), best=null, bs=Infinity;
+    var xs=[], ys=[], v;
+    for(v=m; v<maxX; v+=16) xs.push(v); xs.push(maxX);
+    for(v=m; v<maxY; v+=16) ys.push(v); ys.push(maxY);
+    for(var yi=0; yi<ys.length; yi++){ for(var xi=0; xi<xs.length; xi++){
+      var b={l:xs[xi],t:ys[yi],r:xs[xi]+bw,b:ys[yi]+bh};
+      var sc=tutOverlap(b,hp)*400;
+      if(ctxR) sc+=tutOverlap(b,ctxR)*1.5;
+      for(var k=0;k<items.length;k++){ var o=tutOverlap(b,items[k].r); if(o>0) sc+=Math.min(o,2500)*items[k].w + (o>2500 ? (o-2500)*1.5 : 0) + 2000*items[k].w; }
+      var dx=Math.max(0,b.l-hole.r,hole.l-b.r), dy=Math.max(0,b.t-hole.b,hole.t-b.b);
+      sc+=(dx+dy)*40;
+      if(sc<bs){ bs=sc; best={x:b.l,y:b.t,score:sc}; }
+    }}
+    return best;
+  }
+  // 放氣泡：若預設寬度找不到「不蓋到任何按鈕」的位置，改試較寬（較矮）的氣泡
+  function tutPlaceBubbleSmart(bub, hole, ctxR){
+    bub.style.width = '';
+    var best = tutBestSpot(bub.offsetWidth || 340, bub.offsetHeight || 200, hole, ctxR, bub), bestW = '';
+    if(hole && best && best.score >= 2000){
+      [480, 600].forEach(function(w){
+        if(w > window.innerWidth - 20) return;
+        bub.style.width = w + 'px';
+        var p = tutBestSpot(bub.offsetWidth, bub.offsetHeight || 200, hole, ctxR, bub);
+        if(p && p.score < best.score * 0.6){ best = p; bestW = w + 'px'; }
+      });
+      bub.style.width = bestW;
+    }
+    bub.style.left = best.x + 'px'; bub.style.top = best.y + 'px';
+  }
+  // 依框選範圍畫四片遮罩＋框；kind='act'（請點這裡）/'info'（說明，不可點）
+  function tutDrawFrame(ids, el, extras, kind){
+    var hole=tutRectOf(el);
+    (extras||[]).forEach(function(x){ hole=tutUnion(hole, tutRectOf(x)); });
+    if(!hole){ var r0=el.getBoundingClientRect(); hole={l:r0.left,t:r0.top,r:r0.right,b:r0.bottom}; }
+    var pad=6, x=hole.l-pad, y=hole.t-pad, w=hole.r-hole.l+pad*2, h=hole.b-hole.t+pad*2;
+    var W=window.innerWidth, H=window.innerHeight;
+    function sh(id,a,b,c,d){ var e=document.getElementById(id); e.style.left=a+'px'; e.style.top=b+'px'; e.style.width=c+'px'; e.style.height=d+'px'; e.classList.remove('hidden'); }
+    sh(ids[0], 0, 0, W, Math.max(0,y));
+    sh(ids[1], 0, y+h, W, Math.max(0,H-(y+h)));
+    sh(ids[2], 0, y, Math.max(0,x), h);
+    sh(ids[3], x+w, y, Math.max(0,W-(x+w)), h);
+    var ring=document.getElementById(ids[4]);
+    ring.style.left=x+'px'; ring.style.top=y+'px'; ring.style.width=w+'px'; ring.style.height=h+'px';
+    ring.className='tut-ring '+kind;
+    var tag=ring.querySelector('.ring-tag');
+    if(tag){
+      tag.textContent = (kind==='act') ? '👆 點這裡' : (kind==='info' ? '📖 說明（請按「下一步」）' : '');
+      tag.className = 'ring-tag' + (y < 40 ? ' below' : '');
+    }
+    var tagRoom = (kind ? 32 : 0);
+    return { hole:{l:x,t:(y<40? y : y-tagRoom),r:x+w,b:(y<40? y+h+tagRoom : y+h)}, ctx:(function(){ var c=tutCtxBox(el); return c ? tutRectOf(c) : null; })() };
   }
 
   // 高亮某元素（四片遮罩挖空 + 光框） ---------------------------------------
@@ -10150,57 +10810,60 @@
     }catch(e){}
   }
 
-  function tutHighlight(el){
+  function tutHighlight(el, extras, kind){
     tutScrollIntoView(el);
-    var r = el.getBoundingClientRect();
-    var pad = 6;
-    var x = r.left - pad, y = r.top - pad, w = r.width + pad*2, h = r.height + pad*2;
-    var W = window.innerWidth, H = window.innerHeight;
-    setShade('tutShadeTop',    0, 0, W, Math.max(0,y));
-    setShade('tutShadeBottom', 0, y+h, W, Math.max(0,H-(y+h)));
-    setShade('tutShadeLeft',   0, y, Math.max(0,x), h);
-    setShade('tutShadeRight',  x+w, y, Math.max(0,W-(x+w)), h);
-    var ring = document.getElementById('tutRing');
-    ring.style.left = x+'px'; ring.style.top = y+'px';
-    ring.style.width = w+'px'; ring.style.height = h+'px';
-    ring.classList.remove('hidden');
-  }
-  function setShade(id, x, y, w, h){
-    var el = document.getElementById(id);
-    el.style.left=x+'px'; el.style.top=y+'px'; el.style.width=w+'px'; el.style.height=h+'px';
-    el.classList.remove('hidden');
+    var g = tutDrawFrame(['tutShadeTop','tutShadeBottom','tutShadeLeft','tutShadeRight','tutRing'], el, extras, kind || 'act');
+    TUT._hole = g.hole; TUT._ctx = g.ctx;
   }
   function tutClearHighlight(){
-    ['tutShadeTop','tutShadeBottom','tutShadeLeft','tutShadeRight','tutRing'].forEach(function(id){
+    ['tutShadeTop','tutShadeBottom','tutShadeLeft','tutShadeRight','tutRing','tutBlocker'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.classList.add('hidden');
     });
+    TUT._hole = null; TUT._ctx = null;
   }
 
   // 氣泡定位（避開高亮區、不超出視窗）
   function tutPlaceBubble(bub, el){
-    var bw = 340, bh = bub.offsetHeight || 200;
-    var W = window.innerWidth, H = window.innerHeight;
-    var x, y;
-    if(el){
-      var r = el.getBoundingClientRect();
-      // 優先放右邊，不夠放左邊，再不夠放下方
-      if(r.right + bw + 24 < W){ x = r.right + 18; y = Math.min(Math.max(10,r.top), H-bh-10); }
-      else if(r.left - bw - 24 > 0){ x = r.left - bw - 18; y = Math.min(Math.max(10,r.top), H-bh-10); }
-      else { x = Math.min(Math.max(10, r.left), W-bw-10); y = (r.bottom + bh + 20 < H) ? r.bottom+16 : Math.max(10, r.top - bh - 16); }
-    } else {
-      x = (W-bw)/2; y = (H-bh)/2;
-    }
-    bub.style.left = x+'px'; bub.style.top = y+'px';
+    tutPlaceBubbleSmart(bub, el ? TUT._hole : null, el ? TUT._ctx : null);
   }
 
-  // 視窗大小改變時重繪高亮
-  window.addEventListener('resize', function(){
-    if(TUT.active && TUT.step < (TUT.lesson? TUT.lesson.steps.length:0)){
-      var s = TUT.lesson.steps[TUT.step];
-      var el = null; try{ el = s.target(); }catch(e){}
-      if(el){ tutHighlight(el); tutPlaceBubble(document.getElementById('tutBubble'), el); }
+  // 重新計算框與氣泡位置（視窗縮放、對話框動畫結束後）
+  function tutRelayout(){
+    if(!TUT.active || !TUT.lesson || TUT.step >= TUT.lesson.steps.length) return;
+    var s = TUT.lesson.steps[TUT.step];
+    var el = null; try{ el = s.target(); }catch(e){}
+    if(el && tutVisible(el)){
+      TUT._extras = tutStepExtras(s, el);
+      tutHighlight(el, TUT._extras, TUT._kind);
+      if(TUT.mode === 'guided') tutPlaceBubble(document.getElementById('tutBubble'), el);
     }
+  }
+  window.addEventListener('resize', tutRelayout);
+
+  // 點到框以外（或說明框）→ 提醒正確的操作
+  function tutNudge(){
+    if(!TUT.active || TUT.mode !== 'guided' || !TUT.lesson) return;
+    var s = TUT.lesson.steps[TUT.step]; if(!s) return;
+    var hint = document.getElementById('tutBubbleHint');
+    if(s.advance && s.advance.type === 'manual'){
+      var b = document.getElementById('tutBubbleNext');
+      b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge');
+      hint.textContent = '👉 請按' + (s.advance.last ? '完成教學' : '下一步'); hint.className = 'b-hint warn';
+    } else {
+      var r = document.getElementById('tutRing');
+      r.classList.remove('flash'); void r.offsetWidth; r.classList.add('flash');
+      hint.textContent = '👆 請操作閃爍框內的項目'; hint.className = 'b-hint warn';
+    }
+  }
+  ['tutShadeTop','tutShadeBottom','tutShadeLeft','tutShadeRight','tutRing','tutBlocker'].forEach(function(id){
+    var e = document.getElementById(id); if(e) e.addEventListener('click', tutNudge);
   });
+  // 下拉選單打開／關閉時，框選範圍跟著調整
+  setInterval(function(){
+    if(!TUT.active || !TUT.lesson){ TUT._popSig = ''; return; }
+    var sig = tutPopupSig();
+    if(sig !== (TUT._popSig || '')){ TUT._popSig = sig; tutRelayout(); }
+  }, 150);
 
   // 所有宣告完成後，執行初始渲染（空表）
   renderGrid();
@@ -10294,6 +10957,17 @@
         if(store.patients.length!==m) changed=true;
       }
 
+      if(store.history && typeof store.history === 'object'){
+        Object.keys(store.history).forEach(function(k){
+          var arr = store.history[k] || [];
+          var kept = arr.filter(function(r){ return !(r && r._tutGen); });
+          if(kept.length !== arr.length){
+            changed = true;
+            if(kept.length) store.history[k] = kept; else delete store.history[k];
+          }
+        });
+      }
+
       // (2) 一次性清理：舊版教學（尚未加標記時）產生的 10 筆示範上傳資料
       //     特徵＝status F + writecard ○ + 卡序 0001~0010 + 屬於教學樣本病歷號
       if(!localStorage.getItem('clinic_tutdemo_cleaned_v1')){
@@ -10310,6 +10984,26 @@
           if(store.registrations.length!==k) changed=true;
         }
         localStorage.setItem('clinic_tutdemo_cleaned_v1','1');
+      }
+
+      // (3) 一次性清理：舊版第七課留下的慢籤示範紀錄（尚未加標記時）
+      //     特徵＝江天賜 0000003、慢籤第1次、卡序013、處方藥品為空（教學自動建立，非真實看診）
+      if(!localStorage.getItem('clinic_tutdemo_cleaned_v2')){
+        if(store.history && typeof store.history === 'object'){
+          Object.keys(store.history).forEach(function(k){
+            var arr = store.history[k] || [];
+            var kept = arr.filter(function(r){
+              return !(r && r.chartNo === '0000003' && r.chronic && !r.chronicRefill &&
+                       r.chronicSeq === 1 && r.cardseq === '013' &&
+                       r.rx && Array.isArray(r.rx.items) && r.rx.items.length === 0);
+            });
+            if(kept.length !== arr.length){
+              changed = true;
+              if(kept.length) store.history[k] = kept; else delete store.history[k];
+            }
+          });
+        }
+        localStorage.setItem('clinic_tutdemo_cleaned_v2','1');
       }
 
       if(changed) localStorage.setItem(KEY, JSON.stringify(store));
@@ -10330,6 +11024,447 @@
     showScreen('screen-mgmt');
   }
   function mgExit(){ showScreen('screen-home'); }
+
+  // 藥品清單（藥代 / 健保碼 / 藥名）— 供報表醫令範圍選擇
+  var RPT_DRUGS = [
+    ['*BRON','AC260801G0','@4) Bromazin 3mg Tab'],
+    ['*CON1','BC23731100','@8) Concerta E.R. 18mg Tab'],
+    ['*CON2','BC23999100','@8) Concerta E.R. 27mg Tab'],
+    ['*CON3','BC23880100','@8) Concerta E.R. 36mg Tab'],
+    ['*CON5','BC24229100','@8) Concerta E.R. 54mg Tab'],
+    ['*DAL1','AC42227100','@2) Syndoman 15mg Cap'],
+    ['*DAL3','AC42222100','@1) Syndoman 30mg Cap'],
+    ['*EUR','AC42646100','@2) ESZO 2mg Tab'],
+    ['*RIVT2','AC45345100','@5) Clonopam 2mg Tab'],
+    ['*RIVT5','AC453421G0','@6) Clonopam 0.5mg Tab'],
+    ['AKI1','AC47044100','01) AKINFREE TABLETS 2MG'],
+    ['ALE1','AB46145100','15) ALEPAN TABLETS 15MG'],
+    ['ALL0','BC23016100','85) ALLEGRA 60mg Tab'],
+    ['ALP','AB446851G0','@1) Alpraline 0.5mg Tab'],
+    ['AMI0','AA49097100','12) AMILLIAN 200mg Tab'],
+    ['AMO0','AC44371100','8A) AMOPINE 5MG Tab'],
+    ['ANB0','AB57963100','8) ANBUTRINE XL 150MG TABLETS'],
+    ['ANC0','A018069100','44) ANCOTON TABLETS'],
+    ['ANX1','AC248851G0','@5)Anxiedine 1mg Tab'],
+    ['ANX2','AC244631G0','@5)ANXIEDIN 0.5MG'],
+    ['APA0','AB47294100','52) APA-RISDOL F.C.2MG Tab'],
+    ['APA1','AC56800100','38A)APA-MIRTAZAPINE O.D.T. 30M'],
+    ['APO-','BC25016100','@9) Apo-Methylphenidate 10mg T'],
+    ['APO3','BB25467100','7C) APO-QUETIAPINE 25mg'],
+    ['APO4','BC22438100','2E) APO-FLUOXETINE CAPSULES 20'],
+    ['APO5','BC24601100','08) Apo-Divalproex 500mg E.C.'],
+    ['APO6','BC24464100','8D) APO-DIVALPROEX 250MG'],
+    ['APO7','BC24979100','@9) APO-METHYLPHENIDATE 20mg T'],
+    ['APO8','BC24626100','@3) APO-ZOPICLONE 7.5MG Tab'],
+    ['APO9','BC25900100','88A)APO-OLANZAPINE ODT 5MG'],
+    ['APOA','BC26196100','82A)APO-ATOMOXETINE CAPSULES 40MG'],
+    ['APOB','BC24460100','41B) Apo-Paroxetine 20mg'],
+    ['APOC','BB25653100','4C) APO-QUETIAPINE 100mg'],
+    ['ARI1','AA57320100','13) ARIPIPRAZOLE 10mg Tab'],
+    ['ARI2','AC58997100','16A) ARIPIZOLE 5MG'],
+    ['ARI3','AC60589100','40)ARIPIZOLE 2MG'],
+    ['ARI4','AC61459100','16B) ARIZOLE 5MG'],
+    ['ATI0','BC187411G0','@4) ATIVAN 0.5mg Tab'],
+    ['BIP0','AC36944100','01) BIPIDEN 2mg Tab'],
+    ['BRI','BC28599100','78) Brintellix 10mg'],
+    ['BRIN','BC28598100','83) BRINTELLIX 5mg'],
+    ['BUP0','A0493221T0','19) BupRoTrin S.R. 150mg Tab'],
+    ['BUP1','AB54977100','17) Buporin S.R. 150mg Tab'],
+    ['BUS','AC41445100','92) Busron 10mg'],
+    ['CAL0','AC58829100','07B) CALM-UP F.C. TABLETS 200M'],
+    ['CAR1','AB182511G0','42A)CARDIOLOL TABLETS 10MG'],
+    ['CIT0','AC45807100','1E) CITAO 20mg Tab'],
+    ['CLO3','BC18542100','10) CLOZARIL TABLETS 100MG'],
+    ['CYM','AC59274100','24B) APA-CYMBA CAPSULES 30MG'],
+    ['DAL1','AC36677100','@1) DALMADORM 30mg Cap'],
+    ['DAL2','AC36679100','@2) DALMADORM 15MG Cap'],
+    ['DEP1','AB47553100','5B) DEPATEC F.C. 500mg Tab'],
+    ['DEP2','BC22008100','8F) DEPAKINE CHRONO 500MG FILM'],
+    ['DEP3','BC14899100','8E) DEPAKINE 200mg'],
+    ['DIA1','NC129141G0','@6) DIAPINE 5MG Tab'],
+    ['DOR0','BC17577100','@6) DORMICUM 7.5MG Tab'],
+    ['DOX0','AC26975100','30)DOXEPIN CAPSULES 25MG'],
+    ['DUP0','NC104681G0','@6) DUPIN 5mg TAB'],
+    ['DUX0','AA56776100','24C) DUXETINE CAPSULES 30MG'],
+    ['EAS0','AA55417100','61) EASYFOR S.R. 37.5mg Cap'],
+    ['EFE0','BC24421100','5C) Effexor X.R. 37.5mg Cap'],
+    ['EME0','AB339471G0','8B) EMETROL 10MG Tab'],
+    ['ERI1','AC46729100','@5)ERISPAN-S TABLETS 0.25MG'],
+    ['ESC0','AA48661100','28) ESCIPRO F.C. 20mg Tab'],
+    ['ESC1','AC57383100','90) ESCITALO F.C. TABLETS 5MG'],
+    ['ESZ0','AC42646100','@2) ESZO 2mg Tab'],
+    ['EUR0','AC124581G0','@2) EURODIN 2MG Tab'],
+    ['EXP0','AC61025100','95B) EXPREXA TABLETS 5MG'],
+    ['EZO0','AC60584100','16C) Ezole 5mg'],
+    ['EZO1','AC61169100','40C) Ezole 2mg'],
+    ['FAL0','AC48472100','@9)Fallep Tablets 2mg'],
+    ['FER0','A045451100','87) FERALL CAP'],
+    ['FLU2','AC320291G0','99) FLURAZIN F.C. TALBETS 5MG'],
+    ['FUT0','AC49577100','2H) FUTE F.C. TABLETS 0.5MG'],
+    ['GEN0','AC46549100','2C) GENBOU F.C. 50mg Tab'],
+    ['GEO0','BC23471100','64) GEODON CAPSULES 40MG'],
+    ['GIN0','AC35417100','2D) GINTEC F.C.40mg Tab'],
+    ['HAL0','BC217261G0','@9) HALCION 0.25mg TAB'],
+    ['INV0','BC24732100','39) INVEGA E.R. 3mg Tab'],
+    ['KIN0','AC426861G0','@1) KINAX 0.5mg Tab'],
+    ['LAM0','BC20509100','2G) LAMICTAL 50mg Tab'],
+    ['LAM1','BC20510100','33B) LAMICTAL 100MG'],
+    ['LAT0','BC26667100','34B) LATUDA 80mg'],
+    ['LAT1','BC26668100','34A) LATUDA 40mg'],
+    ['LAT2','BC26719100','34C) Latuda 20mg'],
+    ['LAV1','AC45892100','@9) LAVOL 5MG Tab'],
+    ['LEE0','AA49629100','22) LEEYO F.C. 10mg Tab'],
+    ['LEN1','BC25713100','@2) LENDORMIN 0.25MG TAB'],
+    ['LEX0','BC044571G0','@4) LEXOTAN 3MG Tab'],
+    ['LIG0','AC09299100','06) LIGILIN 300mg CAP'],
+    ['LIM0','AC49526100','45) LIMUS F.C. 25mg Tab'],
+    ['LOR0','AC228161G0','@5) LORAZIN 1mg'],
+    ['MAG0','A013382100','77) MAGNESIUM OXIDE 250mg Tab'],
+    ['MEL0','AC47399100','81) MELUX 500MG Tab'],
+    ['MES0','AC336641G0','5E) MESYREL 50MG'],
+    ['MEZ0','AC42886100','21) MEZAPIN 100MG Tab'],
+    ['MOC1','AC46759100','2B) MOCALM S.C. TABLET'],
+    ['MOD1','AC37997100','@9) MODIPANOL 2MG Tab'],
+    ['NEU0','AB49518100','47) NEUROQUEL F.C. 100mg Tab'],
+    ['NOR0','BC21571100','89) NORVASC 5MG Tab'],
+    ['OLANZ','BC25901100','88) APO-OLANZAPINE ODT 10MG'],
+    ['OTS0','BC24048100','14) OTSUKA ABILIFY 15mg Tab'],
+    ['OTS1','BC24046100','94) OTSUKA ABILIFY TABLETS 5MG'],
+    ['PAR1','AC37712100','66)PARTANE TABLETS 2MG'],
+    ['PAR2','AC58256100','91) PAROXIN F.C. TABLETS 20MG'],
+    ['PON0','AB08774100','75) PONSTAN F.C. 500mg Tab'],
+    ['PRO0','AB091021G0','43B)PROPRANOLOL TABLETS 10MG'],
+    ['PUR','AB51728100','32) PURTRALINE 50mg'],
+    ['PUR1','AB323121G0','97) PURFEN F.C. TABLET 400MG'],
+    ['QUE1','AC59275100','7B)QUEPINE F.C. TABLET 25MG'],
+    ['QUET','AC55245100','49) QUETIA 200mg Tab'],
+    ['RIT0','BC27080100','@9)RITALIN TABLETS 10MG'],
+    ['RIV0','BC03077100','@6) RIVOTRIL 0.5mg Tab'],
+    ['RIV2','BC030781G0','@5) RIVOTRIL 2MG TABLET'],
+    ['SEC0','AB286491G0','04) SECORIN S.C.TABLET 10MG'],
+    ['SEM1','AC444631G0','@3) SEMI-NAX F.C. TABLETS 10MG'],
+    ['SEN1','A043488100','72A)SENNAPUR TABLETS'],
+    ['SER0','BA24545100','53) Serlin F.C. 50mg Tab'],
+    ['SER1','BC25001100','46) SEROQUEL X.R. 50mg Tab'],
+    ['SER2','BC24256100','3A) SEROXAT C.R. 12.5mg Tab'],
+    ['SIT0','AC46606100','1D) SITALO 20MG'],
+    ['SLE0','NC03676100','@9) SLEEPIN 5mg TAB'],
+    ['SMI0','AB49240100','36)SMILON F.C TABLETS 15MG'],
+    ['SMI1','AA48334100','37)SMILON F.C. TABLETS 30MG'],
+    ['SOL0','AC058131G0','20) SOLAXIN TABLETS'],
+    ['STI2','BC215311G0','@3)STILNOX 10mg'],
+    ['SUL0','AC429461G0','57B) SULMATYL 50mg Tab'],
+    ['SUS0','AC40545100','55) SUSINE F.C. 200mg Tab'],
+    ['SWI0','AC395971G0','65)SWITANE TABLET 2MG'],
+    ['THR0','A037697100','72B) THROUGH F.C. TABLETS'],
+    ['TOF1','AC308941G0','96) TOFRANIL S.C. TABLETS 25MG'],
+    ['TON0','AC479661G0','96B) TONE F.C. TABLETS 25MG'],
+    ['TOP0','BC22509100','58) TOPAMAX F.C. 25mg TAB'],
+    ['TOP1','BC22507100','58A)TOPAMAX F.C.50mg TABLE'],
+    ['TRA0','AC41350100','59) TRAZO F.C.100mg Tab'],
+    ['TRA2','AC41560100','5D) TRAZO F.C. TABLETS 50MG'],
+    ['U-Z0','AC48633100','36) U-ZEPINE F.C. 30mg Tab'],
+    ['UBI0','AA58233100','88B) UBIXA FILM COATED TABLETS'],
+    ['VAL0','BC25451100','11) VALDOXAN F.C. 25mg Tab'],
+    ['WEL0','BC25106100','8C) Wellbutrin XL 150mg Tab'],
+    ['WIN0','AC25191100','02) WINSUMIN S.C. 50mg Tab'],
+    ['XAN0','BC212341G0','@7) XANAX 0.25MG Tab'],
+    ['XAN1','BC216981G0','@7) XANAX XR 0.5mg Tab'],
+    ['XAN2','BC211401G0','@7) XANAX 0.5MG Tab'],
+    ['XET0','BC24791100','41) XET-20mg Tab'],
+    ['YOU0','AB44374100','56) YOU-JET F.C. 50MG'],
+    ['ZYP0','BC23913100','95) ZYPREXA ZYDIS O.D. 5mg Tab']
+  ];
+
+  // ===== R1250 醫令明細報表列印 =====
+  var R12_READY = false;
+
+  function openR1250(){
+    if(!R12_READY){ r12InitLists(); R12_READY = true; }
+    // 預設日期：今天前一天 ~ 今天（民國 yyy/mm/dd）
+    var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+    var y = d.getFullYear() - 1911;
+    var today = y + '/' + p(d.getMonth()+1) + '/' + p(d.getDate());
+    var d0 = new Date(d.getTime() - 86400000);
+    var yest = (d0.getFullYear()-1911) + '/' + p(d0.getMonth()+1) + '/' + p(d0.getDate());
+    document.getElementById('r12D1').value = yest;
+    document.getElementById('r12D2').value = today;
+    document.getElementById('r12D1').oninput = r12Invalidate;
+    document.getElementById('r12D2').oninput = r12Invalidate;
+    R12_RESULT = null;              // 每次開啟都要重新計算
+    rpCloseMenus();
+    document.getElementById('r12Overlay').classList.remove('hidden');
+  }
+  function closeR1250(){ document.getElementById('r12Overlay').classList.add('hidden'); }
+
+  // 目前選取的藥品索引（1=起始醫令、2=結束醫令）
+  var R12_SEL = { 1:0, 2:0 };
+
+  // 建立藥品清單（起始／結束共用同一份）
+  // 收合時輸入框只顯示「藥代」；展開清單才顯示「藥代 + 藥名」
+  function r12InitLists(){
+    [1,2].forEach(function(n){
+      var list = document.getElementById('r12L'+n);
+      var h = '';
+      RPT_DRUGS.forEach(function(d, i){
+        h += '<div class="dd-i" data-i="'+i+'" onclick="r12DDPick('+n+','+i+')">' +
+               '<span class="c">'+ d[0] +'</span><span class="n">'+ d[2] +'</span>' +
+             '</div>';
+      });
+      list.innerHTML = h;
+    });
+    // 首字母快選
+    var letters = [];
+    RPT_DRUGS.forEach(function(d){
+      var ch = d[0].charAt(0);
+      if(letters.indexOf(ch) < 0) letters.push(ch);
+    });
+    var lo = '';
+    letters.forEach(function(ch){ lo += '<option value="'+ch+'">'+ch+'</option>'; });
+    document.getElementById('r12P1').innerHTML = lo;
+    document.getElementById('r12P2').innerHTML = lo;
+    // 預設：起始=第一筆、結束=最後一筆（涵蓋全部藥品）
+    r12DDSet(1, 0);
+    r12DDSet(2, RPT_DRUGS.length - 1);
+  }
+  // 設定選取（只把藥代寫進輸入框）
+  function r12DDSet(n, i){
+    R12_SEL[n] = i;
+    var d = RPT_DRUGS[i];
+    if(!d) return;
+    document.getElementById('r12T'+n).value = d[0];          // 收合只顯示藥代
+    document.getElementById('r12T'+n).title = d[0] + '　' + d[2];
+    document.getElementById('r12P'+n).value = d[0].charAt(0);
+    var list = document.getElementById('r12L'+n);
+    list.querySelectorAll('.dd-i.sel').forEach(function(e){ e.classList.remove('sel'); });
+    var cur = list.querySelector('.dd-i[data-i="'+i+'"]');
+    if(cur) cur.classList.add('sel');
+    r12Invalidate();                                          // 條件變了 → 需重新計算
+  }
+  function r12DDPick(n, i){
+    r12DDSet(n, i);
+    document.getElementById('r12L'+n).classList.remove('open');
+  }
+  function r12DDToggle(n){
+    var list = document.getElementById('r12L'+n);
+    var wasOpen = list.classList.contains('open');
+    r12DDCloseAll();
+    if(!wasOpen){
+      list.classList.add('open');
+      var cur = list.querySelector('.dd-i.sel');
+      if(cur && cur.scrollIntoView) cur.scrollIntoView({ block:'nearest' });
+    }
+  }
+  function r12DDCloseAll(){
+    [1,2].forEach(function(n){
+      var l = document.getElementById('r12L'+n);
+      if(l) l.classList.remove('open');
+    });
+  }
+  // 選了首字母 → 跳到該字母第一筆藥
+  function r12PickLetter(n){
+    var ch = document.getElementById('r12P'+n).value;
+    for(var i=0;i<RPT_DRUGS.length;i++){
+      if(RPT_DRUGS[i][0].charAt(0) === ch){ r12DDSet(n, i); break; }
+    }
+  }
+
+  // 民國 yyy/mm/dd → 日期鍵 yyymmdd
+  function r12DateKey(s){
+    var m = String(s||'').match(/^(\d{2,3})\/(\d{1,2})\/(\d{1,2})$/);
+    if(!m) return '';
+    return m[1] + String(m[2]).padStart(2,'0') + String(m[3]).padStart(2,'0');
+  }
+
+  // 蒐集就診明細：掃描 localStorage 的今日掛號 + 歷史，取已完成(F)且有處方者
+  function r12Collect(){
+    var rows = [];
+    try{
+      var store = JSON.parse(localStorage.getItem('clinic_store_v4') || '{}');
+      var k1 = r12DateKey(document.getElementById('r12D1').value);
+      var k2 = r12DateKey(document.getElementById('r12D2').value);
+      var i1 = R12_SEL[1];
+      var i2 = R12_SEL[2];
+      if(i1 > i2){ var t=i1; i1=i2; i2=t; }
+      var codeSet = {};
+      for(var i=i1; i<=i2 && i<RPT_DRUGS.length; i++){ codeSet[RPT_DRUGS[i][0]] = true; }
+
+      var buckets = [];
+      if(store.date && Array.isArray(store.registrations)) buckets.push([store.date, store.registrations]);
+      if(store.history){
+        Object.keys(store.history).forEach(function(dk){ buckets.push([dk, store.history[dk] || []]); });
+      }
+      buckets.forEach(function(b){
+        var dk = b[0];
+        if(k1 && dk < k1) return;
+        if(k2 && dk > k2) return;
+        (b[1]||[]).forEach(function(r){
+          if(!r || r.status !== 'F' || !r.rx || !r.rx.items) return;
+          r.rx.items.forEach(function(it){
+            if(!codeSet[it.code]) return;
+            rows.push({
+              doc:'101',
+              date:dk,
+              chartNo:r.chartNo||'',
+              custom:'',
+              name:r.name||'',
+              phone:r.mobile||r.phone||'',
+              diagCode:(r.diagObj&&r.diagObj.code)||r.diag||'',
+              diagName:(r.diagObj&&r.diagObj.name)||'',
+              code:it.code,
+              drug:it.name||'',
+              qty:it.qty||0,          // 健保用量（實際開立量）
+              genQty:'',              // 一般用量（自費品項才計）
+              amount:((it.price||0) * (it.qty||0))
+            });
+          });
+        });
+      });
+      // 排序：依所選方式
+      var o = (document.querySelector('input[name=r12o]:checked')||{}).value || 'a';
+      rows.sort(function(x,y){
+        if(o==='b') return x.date.localeCompare(y.date);
+        if(o==='d') return x.chartNo.localeCompare(y.chartNo);
+        if(o==='c') return (x.doc+x.code+x.date).localeCompare(y.doc+y.code+y.date);
+        return (x.code+x.date).localeCompare(y.code+y.date);   // a: 藥代+看診日
+      });
+    }catch(e){}
+    return rows;
+  }
+
+  // ── 計算取檔：先統計，取得結果後才可預覽／輸出 ──
+  var R12_RESULT = null;     // null = 尚未計算
+
+  // 任何查詢條件變更 → 作廢先前的計算結果
+  function r12Invalidate(){ R12_RESULT = null; }
+
+  function r12Calc(){
+    var rows = r12Collect();
+    R12_RESULT = {
+      rows: rows,
+      d1: r12DateKey(document.getElementById('r12D1').value),
+      d2: r12DateKey(document.getElementById('r12D2').value),
+      c1: RPT_DRUGS[R12_SEL[1]],
+      c2: RPT_DRUGS[R12_SEL[2]]
+    };
+    // 計算完成後自動開啟預覽列印
+    r12RenderPreview();
+  }
+  function r12Text(){
+    if(!R12_RESULT){ alert('請先按「C計算,取檔」進行統計。'); return; }
+    alert('已輸出文字檔（模擬），共 ' + R12_RESULT.rows.length + ' 筆。');
+  }
+  function r12Excel(){
+    if(!R12_RESULT){ alert('請先按「C計算,取檔」進行統計。'); return; }
+    alert('已輸出 EXCEL 檔（模擬），共 ' + R12_RESULT.rows.length + ' 筆。');
+  }
+
+  // ===== 預覽列印 =====
+  // 必須先按「C計算,取檔」統計，否則沒有資料可預覽
+  function r12Preview(){
+    if(!R12_RESULT){
+      alert('尚未取得統計資料。\n\n請先按「C計算,取檔」進行統計，再預覽列印。');
+      return;
+    }
+    r12RenderPreview();
+  }
+
+  function r12RenderPreview(){
+    if(!R12_RESULT) return;
+    var rows = R12_RESULT.rows;
+    var d1 = R12_RESULT.d1;
+    var d2 = R12_RESULT.d2;
+    var c1 = R12_RESULT.c1;
+    var c2 = R12_RESULT.c2;
+    var now = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+    var pd = (now.getFullYear()-1911) + '/' + p(now.getMonth()+1) + '/' + p(now.getDate());
+    var pt = p(now.getHours()) + ':' + p(now.getMinutes()) + ':' + p(now.getSeconds());
+
+    var html = '<div class="rv-h1">醫令明細報表列印</div>' +
+      '<div class="rv-meta"><span class="c1">印表日期 '+pd+'</span>' +
+        '<span class="c2">期間: '+d1+' 至 '+d2+'</span>' +
+        '<span class="c3">總筆數 '+rows.length+'　　頁 1</span></div>' +
+      '<div class="rv-meta"><span class="c1">印表時間 '+pt+'</span>' +
+        '<span class="c2">藥代: '+(c1?c1[0]:'')+'　 至 '+(c2?c2[0]:'')+'</span>' +
+        '<span class="c3">程式報表名稱: R12510</span></div>';
+
+    if(!rows.length){
+      html += '<div class="rv-empty">此範圍期間內查無使用紀錄。<br><br>' +
+              '（報表只統計「已完成看診」且有處方的個案；<br>' +
+              '可先在門診掛號系統把個案看診完成，或開啟「醫師看診」開關）</div>';
+    } else {
+      html += '<table class="rv-tbl"><thead><tr>' +
+        '<th>醫師別</th><th>看診日期</th><th>病歷號</th><th>自訂碼</th><th>姓名</th><th>電話</th>' +
+        '<th>病代</th><th class="dg">病名</th><th>藥代</th><th>藥名一</th>' +
+        '<th class="num">一般用量</th><th class="num">健保用量</th><th class="num">金額</th>' +
+        '</tr></thead><tbody>';
+      var pats = {}, sumGen = 0, sumNhi = 0, sumAmt = 0;
+      rows.forEach(function(r){
+        pats[r.chartNo] = true;
+        sumGen += Number(r.genQty) || 0;
+        sumNhi += Number(r.qty) || 0;
+        sumAmt += Number(r.amount) || 0;
+        html += '<tr>' +
+          '<td>'+r.doc+'</td><td>'+r.date+'</td><td>'+r.chartNo+'</td><td>'+r.custom+'</td>' +
+          '<td>'+r.name+'</td><td>'+r.phone+'</td>' +
+          '<td>'+r.diagCode+'</td>' +
+          '<td class="dg" title="'+ (r.diagName||'').replace(/"/g,'') +'">'+r.diagName+'</td>' +
+          '<td>'+r.code+'</td><td>'+r.drug+'</td>' +
+          '<td class="num">'+(r.genQty ? Number(r.genQty).toFixed(2) : '')+'</td>' +
+          '<td class="num">'+Number(r.qty).toFixed(2)+'</td>' +
+          '<td class="num">'+Number(r.amount).toFixed(2)+'</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table>';
+      // ── 總計列：人數 / 一般合計 / 健保合計 / 金額合計 ──
+      var nPat = Object.keys(pats).length;
+      html += '<div class="rv-sum">' +
+        '<span class="s1">總計：　'+ nPat +' 人</span>' +
+        '<span class="s2">一般合計=</span>' +
+        '<span class="s3">'+ (sumGen ? sumGen.toFixed(2) : '') +'</span>' +
+        '<span class="s2">健保合計=</span>' +
+        '<span class="s3">'+ sumNhi.toFixed(2) +'</span>' +
+        '<span class="s4">'+ sumAmt.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}) +'</span>' +
+        '</div>' +
+        '<div class="rv-end">以下空白</div>';
+    }
+    document.getElementById('rvPage').innerHTML = html;
+    document.getElementById('rvRec').textContent = '記錄:' + Math.min(30, rows.length) + '/' + rows.length;
+    document.getElementById('rvOverlay').classList.remove('hidden');
+  }
+  function closePreview(){ document.getElementById('rvOverlay').classList.add('hidden'); }
+
+
+  // ===== 報表輸出作業（常用報表管理）=====
+  function goToReport(e){
+    if(e && e.stopPropagation) e.stopPropagation();
+    document.querySelectorAll('.home-dropdown.open').forEach(function(m){ m.classList.remove('open'); });
+    rpCloseMenus();
+    showScreen('screen-report');
+  }
+  function rpExit(){ rpCloseMenus(); showScreen('screen-home'); }
+  function rpCloseMenus(){
+    document.querySelectorAll('#rpMenubar .rp-drop.open').forEach(function(d){ d.classList.remove('open'); });
+    document.querySelectorAll('#rpMenubar .mi.on').forEach(function(m){ m.classList.remove('on'); });
+  }
+  function rpToggleMenu(e, id){
+    if(e && e.stopPropagation) e.stopPropagation();
+    var d = document.getElementById(id);
+    if(!d) return;
+    var wasOpen = d.classList.contains('open');
+    rpCloseMenus();
+    if(!wasOpen){
+      d.classList.add('open');
+      if(d.parentElement) d.parentElement.classList.add('on');
+    }
+  }
+  // 點畫面其他地方 → 收起報表選單與醫令下拉
+  document.addEventListener('click', function(e){
+    rpCloseMenus();
+    if(!e.target.closest || !e.target.closest('.r12-dd')){
+      if(typeof r12DDCloseAll === 'function') r12DDCloseAll();
+    }
+  });
 
   // ===== 掛號費參數調整：健保/自付掛號相關變數設定 =====
   // m: 左側標籤（'預設' / '啟用' / 'both'=啟用+強制）
@@ -10896,7 +12031,8 @@
 <div class="tut-shade hidden" id="homeTutShadeBottom"></div>
 <div class="tut-shade hidden" id="homeTutShadeLeft"></div>
 <div class="tut-shade hidden" id="homeTutShadeRight"></div>
-<div class="tut-ring hidden" id="homeTutRing"></div>
+<div class="tut-ring hidden" id="homeTutRing"><span class="ring-tag"></span></div>
+<div class="tut-blocker hidden" id="homeTutBlocker"></div>
 <div class="tut-bubble hidden" id="homeTutBubble">
   <div class="b-head">
     <span id="homeTutBubbleTitle">步驟</span>
@@ -11046,7 +12182,11 @@
           text:'系統顯示「<b>產生上傳資料共 N 筆，開始上傳資料？</b>」<br><br>點「<b>是(Y)</b>」開始上傳。<br><br>（「取消」＝只產生上傳檔不上傳；「否」＝終止。）',
           why:'確認筆數正確後才送出。上傳完成後清單會清空，代表資料已送出健保署。',
           target:function(){ return homeFindMenu('#upcOverlay .upc-btn','是(Y)'); },
-          advance:{ type:'hidden', el:'#upcOverlay' }
+          // 等「上傳資料中…」跑完、清單清空才前進（按「否／取消」不算完成）
+          advance:{ type:'predicate', test:function(){
+            var hid=function(id){ var e=document.getElementById(id); return !e || e.classList.contains('hidden'); };
+            return hid('upcOverlay') && hid('uplrOverlay') && uploadRows.length===0;
+          } }
         },
         {
           title:'上傳完成 → Ｘ 退出',
@@ -11206,14 +12346,56 @@
     }catch(e){}
   }
 
+  // 十堂課總表（首頁與掛號視窗共用同一份進度紀錄：store.tutProgress）
+  var TUT_CATALOG = [
+    ['checkin','第一課'],['idtypes','第二課'],['revisit','第三課'],['nocard','第四課'],
+    ['nocardrevisit','第五課'],['refund','第六課'],['chronic','第七課'],['acctprint','第八課'],
+    ['dailyupload','第九課'],['backup','第十課']
+  ];
+  function tutProgressSummary(pg){
+    pg = pg || {};
+    var done = 0, missing = [];
+    TUT_CATALOG.forEach(function(c){ if(pg[c[0]] && pg[c[0]].done) done++; else missing.push(c[1]); });
+    return { done:done, total:TUT_CATALOG.length, missing:missing };
+  }
+  function tutProgressHeaderHtml(pg){
+    var sm = tutProgressSummary(pg);
+    var pct = Math.round(sm.done / sm.total * 100);
+    return '<div class="tut-progress"><span class="tp-t">完成進度：<b>' + sm.done + '</b> / ' + sm.total + ' 課</span>' +
+           '<span class="tp-bar"><i style="width:' + pct + '%"></i></span></div>';
+  }
+
+  function homeTutProgressGet(){
+    try{ var st = JSON.parse(localStorage.getItem('clinic_store_v4') || '{}'); return st.tutProgress || {}; }
+    catch(e){ return {}; }
+  }
+  function homeTutProgressMark(key){
+    if(!key) return;
+    try{
+      var st = JSON.parse(localStorage.getItem('clinic_store_v4') || '{}');
+      var pg = st.tutProgress || {};
+      var e = pg[key] || { count:0, parts:{} };
+      e.done = true;
+      e.count = (e.count || 0) + 1;
+      var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+      e.last = String(d.getFullYear()-1911) + p(d.getMonth()+1) + p(d.getDate());
+      pg[key] = e;
+      st.tutProgress = pg;
+      localStorage.setItem('clinic_store_v4', JSON.stringify(st));
+    }catch(err){}
+  }
+
   function homeOpenTutMenu(){
     var list = document.getElementById('homeTutLessonList');
     list.innerHTML = '';
+    var pg = homeTutProgressGet();
+    list.insertAdjacentHTML('beforeend', tutProgressHeaderHtml(pg));
     Object.keys(HTUT_LESSONS).forEach(function(key){
       var L = HTUT_LESSONS[key];
       var div = document.createElement('div');
-      div.className = 'tut-lesson';
-      div.innerHTML = '<div class="t">'+ L.title +'</div>';
+      var rec = pg[key] || {};
+      div.className = 'tut-lesson' + (rec.done ? ' done' : '');
+      div.innerHTML = '<div class="t">'+ L.title + (rec.done ? '<span class="tut-done-badge">✅ 已完成</span>' : '') +'</div>';
       div.onclick = function(){ homeStartTutorial(key); };
       list.appendChild(div);
     });
@@ -11292,7 +12474,12 @@
 
   function homeTutRenderStep(s, el){
     var steps = HTUT.lesson.steps;
-    if(el){ homeTutHighlight(el); } else { homeTutClearHighlight(); }
+    var isManual = !!(s.advance && s.advance.type === 'manual');
+    var guided = (HTUT.mode === 'guided');
+    HTUT._kind = (guided && isManual) ? 'info' : 'act';
+    HTUT._extras = el ? tutStepExtras(s, el) : [];
+    if(el){ homeTutHighlight(el, HTUT._extras, HTUT._kind); } else { homeTutClearHighlight(); }
+    document.getElementById('homeTutBlocker').classList.toggle('hidden', !(guided && isManual && !el));
     if(HTUT.mode==='guided'){
       document.getElementById('homeTutTipCard').classList.add('hidden');
       var bub=document.getElementById('homeTutBubble');
@@ -11312,10 +12499,15 @@
       if(s.why){ why.style.display='block'; why.innerHTML='💡 '+s.why; } else { why.style.display='none'; }
       var nextBtn=document.getElementById('homeTutBubbleNext');
       var hint=document.getElementById('homeTutBubbleHint');
-      if(s.advance && s.advance.type==='manual'){ nextBtn.style.display='inline-block'; nextBtn.textContent='下一步 ▶'; hint.textContent=''; }
-      else { nextBtn.style.display='none'; hint.textContent='👆 依提示操作即可自動前進'; }
+      nextBtn.classList.remove('nudge');
+      if(isManual){ nextBtn.style.display='inline-block'; nextBtn.textContent='下一步 ▶'; nextBtn.classList.add('wait');
+        hint.textContent='📖 看完按下一步 →'; hint.className='b-hint info'; }
+      else { nextBtn.style.display='none'; nextBtn.classList.remove('wait');
+        hint.textContent= el ? '👆 請操作閃爍框，完成自動前進' : '👆 依提示操作即可自動前進'; hint.className='b-hint act'; }
       bub.classList.remove('hidden');
       homeTutPlaceBubble(bub, el);
+      var stepAt = HTUT.step, lessonAt = HTUT.lesson;
+      setTimeout(function(){ if(HTUT.active && HTUT.step === stepAt && HTUT.lesson === lessonAt) homeTutRelayout(); }, 380);
     } else {
       document.getElementById('homeTutBubble').classList.add('hidden');
       var card=document.getElementById('homeTutTipCard');
@@ -11331,6 +12523,15 @@
     var a=s.advance;
     if(HTUT.mode==='hint' && a.type!=='handoff') return;   // 提示模式靠手動（但 handoff 仍要交棒）
     if(a.type==='manual') return;
+    if(a.type==='predicate' && typeof a.test==='function'){
+      var pp=setInterval(function(){
+        if(!HTUT.active){ clearInterval(pp); return; }
+        var ok=false; try{ ok=a.test(); }catch(e){}
+        if(ok){ clearInterval(pp); HTUT.waiting=null; setTimeout(homeTutNext,300); }
+      },120);
+      HTUT.waiting={evt:'poll',timer:pp};
+      return;
+    }
     if(a.type==='shown' || a.type==='hidden'){
       var target=document.querySelector(a.el);
       var poll=setInterval(function(){
@@ -11404,19 +12605,6 @@
   }
 
   // 交棒到掛號視窗（保留供備援直接呼叫）
-  function homeTutHandoff(){
-    var w=window._regWin;
-    var pend = HTUT._pendingHandoff || { key:HTUT.lesson.handoff, mode:HTUT.mode };
-    HTUT._pendingHandoff = null;
-    homeTutExit();
-    if(w && !w.closed){
-      try{
-        w.focus();
-        if(typeof w.startTutorial==='function'){ w.startTutorial(pend.key, pend.mode); }
-        else { w._tutPendingStart = pend; }
-      }catch(e){ try{ w._tutPendingStart = pend; }catch(e2){} }
-    }
-  }
 
   function homeTutClearWaiting(){
     if(!HTUT.waiting) return;
@@ -11427,6 +12615,7 @@
   function homeTutManualNext(){
     var s = HTUT.lesson && HTUT.lesson.steps[HTUT.step];
     if(s && s.advance && s.advance.last){
+      homeTutProgressMark(HTUT._key);   // 記錄完成
       var nl = HTUT.lesson.nextLesson;
       if(nl && HTUT_LESSONS[nl]){ homeTutAskNextLesson(nl); return; }
       if(HTUT.lesson.allDone){ homeTutShowDone(); return; }
@@ -11464,6 +12653,14 @@
   // 首頁：全部課程完成 → 恭喜大框
   function homeTutShowDone(){
     homeTutExit();
+    // 依實際進度顯示：全部完成 → 恭喜；尚有未完成 → 列出還沒上的課
+    var sm = tutProgressSummary(homeTutProgressGet());
+    var sub = document.querySelector('#homeTutDoneOverlay .td-sub');
+    if(sub){
+      sub.textContent = (sm.done >= sm.total)
+        ? '十堂課全部完成 — 從掛號、複診、退掛、慢籤，到下班前三件事'
+        : '目前完成 ' + sm.done + ' / ' + sm.total + ' 課，尚未完成：' + sm.missing.join('、');
+    }
     document.getElementById('homeTutDoneOverlay').classList.remove('hidden');
   }
   function homeTutCloseDone(){
@@ -11502,44 +12699,175 @@
     homeTutClearDemoData();
   }
 
-  function homeTutHighlight(el){
-    var r=el.getBoundingClientRect(); var pad=6;
-    var x=r.left-pad,y=r.top-pad,w=r.width+pad*2,h=r.height+pad*2;
-    var W=window.innerWidth,H=window.innerHeight;
-    homeSetShade('homeTutShadeTop',0,0,W,Math.max(0,y));
-    homeSetShade('homeTutShadeBottom',0,y+h,W,Math.max(0,H-(y+h)));
-    homeSetShade('homeTutShadeLeft',0,y,Math.max(0,x),h);
-    homeSetShade('homeTutShadeRight',x+w,y,Math.max(0,W-(x+w)),h);
-    var ring=document.getElementById('homeTutRing');
-    ring.style.left=x+'px'; ring.style.top=y+'px'; ring.style.width=w+'px'; ring.style.height=h+'px';
-    ring.classList.remove('hidden');
+
+  // ===== 教學框共用工具 =====
+  // 1) 框選範圍＝目標＋步驟文字「…」點名、且在同一作業框內的按鈕（例：查生日的輸入框＋「S確定」）
+  // 2) 氣泡位置＝掃描整個畫面，絕不壓到框選範圍、盡量不壓到作業框內的按鈕／輸入框，再求靠近目標
+  function tutRectOf(el){
+    try{ var r=el.getBoundingClientRect(); return (r.width>0 && r.height>0) ? {l:r.left,t:r.top,r:r.right,b:r.bottom} : null; }
+    catch(e){ return null; }
   }
-  function homeSetShade(id,x,y,w,h){
-    var el=document.getElementById(id);
-    el.style.left=x+'px'; el.style.top=y+'px'; el.style.width=w+'px'; el.style.height=h+'px';
-    el.classList.remove('hidden');
+  function tutUnion(a,b){ if(!a) return b; if(!b) return a; return {l:Math.min(a.l,b.l),t:Math.min(a.t,b.t),r:Math.max(a.r,b.r),b:Math.max(a.b,b.b)}; }
+  function tutOverlap(a,b){
+    if(!a || !b) return 0;
+    var w=Math.min(a.r,b.r)-Math.max(a.l,b.l), h=Math.min(a.b,b.b)-Math.max(a.t,b.t);
+    return (w>0 && h>0) ? w*h : 0;
+  }
+  // 目標所在的作業框（對話框、按鈕列…）：往上找、面積小於畫面 40% 的最大容器
+  function tutCtxBox(el){
+    var W=window.innerWidth, H=window.innerHeight, best=null, p=el && el.parentElement;
+    while(p && p!==document.body && p!==document.documentElement){
+      var r=tutRectOf(p);
+      if(r){ if((r.r-r.l)*(r.b-r.t) > W*H*0.4) break; best=p; }
+      p=p.parentElement;
+    }
+    return best;
+  }
+  var TUT_POPUP_SEL = '.fee-menu, .menu-dropdown, .home-dropdown, .cal-pop';
+  // 目前畫面上「打開中的下拉選單」特徵字串；變了就重新框選、重新放氣泡
+  function tutPopupSig(){
+    var out=[], pops=document.querySelectorAll(TUT_POPUP_SEL);
+    for(var i=0;i<pops.length;i++){ var r=tutRectOf(pops[i]); if(r && getComputedStyle(pops[i]).display!=='none') out.push(i+':'+Math.round(r.l)+','+Math.round(r.t)+','+Math.round(r.r)+','+Math.round(r.b)); }
+    return out.join('|');
+  }
+  function tutNorm(s){ return String(s||'').replace(/[\s▶►✓：:]/g,''); }
+  function tutStepExtras(s, el){
+    var out=[];
+    if(!el) return out;
+    try{ if(typeof s.also==='function'){ (s.also()||[]).forEach(function(x){ if(x && tutRectOf(x)) out.push(x); }); } }catch(e){}
+    if(s.advance && s.advance.type==='manual') return out;
+    var ctx=tutCtxBox(el);
+    // 由目標彈出的下拉選單（例如掛費選單）→ 一起框進來，才點得到
+    var pops=document.querySelectorAll(TUT_POPUP_SEL);
+    for(var pi=0; pi<pops.length; pi++){
+      var pp=pops[pi];
+      if(!tutRectOf(pp) || getComputedStyle(pp).display==='none' || getComputedStyle(pp).visibility==='hidden') continue;
+      if((ctx && ctx.contains(pp)) || (el.parentElement && el.parentElement.contains(pp)) || el.contains(pp)) out.push(pp);
+    }
+    if(!ctx) return out;
+    var labels=[];
+    String(s.text||'').replace(/<[^>]+>/g,'').replace(/「([^」]{1,14})」/g, function(m,g){ labels.push(tutNorm(g)); return m; });
+    String(s.text||'').replace(/(?:按|點|點選|按下|再按)\s*「?<b>([^<]{1,14})<\/b>/g, function(m,g){ labels.push(tutNorm(g)); return m; });
+    if(!labels.length) return out;
+    var cands=ctx.querySelectorAll('button,input[type=button],input[type=submit],.btn,[onclick]');
+    for(var i=0;i<cands.length;i++){
+      var c=cands[i];
+      if(c===el || el.contains(c) || c.contains(el) || out.indexOf(c)>=0) continue;
+      var tx=tutNorm(c.textContent || c.value);
+      if(tx && labels.indexOf(tx)>=0 && tutRectOf(c)) out.push(c);
+    }
+    return out;
+  }
+  function tutBestSpot(bw, bh, hole, ctxR, skipEl){
+    var W=window.innerWidth, H=window.innerHeight, m=8;
+    if(!hole || !W || !H) return { x:Math.max(m,(W-bw)/2), y:Math.max(m,(H-bh)/2), score:0 };
+    var items=[], all=document.querySelectorAll('button,input,select,textarea,.btn,[onclick]');
+    for(var i=0;i<all.length;i++){
+      var e=all[i]; if(skipEl && skipEl.contains(e)) continue;
+      var r=tutRectOf(e); if(!r || r.r<0 || r.b<0 || r.l>W || r.t>H) continue;
+      items.push({ r:r, w:(ctxR && tutOverlap(r,ctxR)>0) ? 25 : 4 });
+    }
+    var hp={l:hole.l-12,t:hole.t-12,r:hole.r+12,b:hole.b+12};
+    var maxX=Math.max(m,W-bw-m), maxY=Math.max(m,H-bh-m), best=null, bs=Infinity;
+    var xs=[], ys=[], v;
+    for(v=m; v<maxX; v+=16) xs.push(v); xs.push(maxX);
+    for(v=m; v<maxY; v+=16) ys.push(v); ys.push(maxY);
+    for(var yi=0; yi<ys.length; yi++){ for(var xi=0; xi<xs.length; xi++){
+      var b={l:xs[xi],t:ys[yi],r:xs[xi]+bw,b:ys[yi]+bh};
+      var sc=tutOverlap(b,hp)*400;
+      if(ctxR) sc+=tutOverlap(b,ctxR)*1.5;
+      for(var k=0;k<items.length;k++){ var o=tutOverlap(b,items[k].r); if(o>0) sc+=Math.min(o,2500)*items[k].w + (o>2500 ? (o-2500)*1.5 : 0) + 2000*items[k].w; }
+      var dx=Math.max(0,b.l-hole.r,hole.l-b.r), dy=Math.max(0,b.t-hole.b,hole.t-b.b);
+      sc+=(dx+dy)*40;
+      if(sc<bs){ bs=sc; best={x:b.l,y:b.t,score:sc}; }
+    }}
+    return best;
+  }
+  // 放氣泡：若預設寬度找不到「不蓋到任何按鈕」的位置，改試較寬（較矮）的氣泡
+  function tutPlaceBubbleSmart(bub, hole, ctxR){
+    bub.style.width = '';
+    var best = tutBestSpot(bub.offsetWidth || 340, bub.offsetHeight || 200, hole, ctxR, bub), bestW = '';
+    if(hole && best && best.score >= 2000){
+      [480, 600].forEach(function(w){
+        if(w > window.innerWidth - 20) return;
+        bub.style.width = w + 'px';
+        var p = tutBestSpot(bub.offsetWidth, bub.offsetHeight || 200, hole, ctxR, bub);
+        if(p && p.score < best.score * 0.6){ best = p; bestW = w + 'px'; }
+      });
+      bub.style.width = bestW;
+    }
+    bub.style.left = best.x + 'px'; bub.style.top = best.y + 'px';
+  }
+  // 依框選範圍畫四片遮罩＋框；kind='act'（請點這裡）/'info'（說明，不可點）
+  function tutDrawFrame(ids, el, extras, kind){
+    var hole=tutRectOf(el);
+    (extras||[]).forEach(function(x){ hole=tutUnion(hole, tutRectOf(x)); });
+    if(!hole){ var r0=el.getBoundingClientRect(); hole={l:r0.left,t:r0.top,r:r0.right,b:r0.bottom}; }
+    var pad=6, x=hole.l-pad, y=hole.t-pad, w=hole.r-hole.l+pad*2, h=hole.b-hole.t+pad*2;
+    var W=window.innerWidth, H=window.innerHeight;
+    function sh(id,a,b,c,d){ var e=document.getElementById(id); e.style.left=a+'px'; e.style.top=b+'px'; e.style.width=c+'px'; e.style.height=d+'px'; e.classList.remove('hidden'); }
+    sh(ids[0], 0, 0, W, Math.max(0,y));
+    sh(ids[1], 0, y+h, W, Math.max(0,H-(y+h)));
+    sh(ids[2], 0, y, Math.max(0,x), h);
+    sh(ids[3], x+w, y, Math.max(0,W-(x+w)), h);
+    var ring=document.getElementById(ids[4]);
+    ring.style.left=x+'px'; ring.style.top=y+'px'; ring.style.width=w+'px'; ring.style.height=h+'px';
+    ring.className='tut-ring '+kind;
+    var tag=ring.querySelector('.ring-tag');
+    if(tag){
+      tag.textContent = (kind==='act') ? '👆 點這裡' : (kind==='info' ? '📖 說明（請按「下一步」）' : '');
+      tag.className = 'ring-tag' + (y < 40 ? ' below' : '');
+    }
+    var tagRoom = (kind ? 32 : 0);
+    return { hole:{l:x,t:(y<40? y : y-tagRoom),r:x+w,b:(y<40? y+h+tagRoom : y+h)}, ctx:(function(){ var c=tutCtxBox(el); return c ? tutRectOf(c) : null; })() };
+  }
+
+  function homeTutHighlight(el, extras, kind){
+    try{ if(el.scrollIntoView){ var r0=el.getBoundingClientRect(); if(r0.top<0 || r0.bottom>window.innerHeight) el.scrollIntoView({block:'center'}); } }catch(e){}
+    var g = tutDrawFrame(['homeTutShadeTop','homeTutShadeBottom','homeTutShadeLeft','homeTutShadeRight','homeTutRing'], el, extras, kind || 'act');
+    HTUT._hole = g.hole; HTUT._ctx = g.ctx;
   }
   function homeTutClearHighlight(){
-    ['homeTutShadeTop','homeTutShadeBottom','homeTutShadeLeft','homeTutShadeRight','homeTutRing'].forEach(function(id){
+    ['homeTutShadeTop','homeTutShadeBottom','homeTutShadeLeft','homeTutShadeRight','homeTutRing','homeTutBlocker'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.classList.add('hidden');
     });
+    HTUT._hole = null; HTUT._ctx = null;
   }
   function homeTutPlaceBubble(bub, el){
-    var bw=360, bh=bub.offsetHeight||200; var W=window.innerWidth,H=window.innerHeight; var x,y;
-    if(el){
-      var r=el.getBoundingClientRect();
-      if(r.left - bw - 24 > 0){ x=r.left-bw-18; y=Math.min(Math.max(10,r.top),H-bh-10); }
-      else if(r.right+bw+24<W){ x=r.right+18; y=Math.min(Math.max(10,r.top),H-bh-10); }
-      else { x=Math.min(Math.max(10,r.left),W-bw-10); y=(r.bottom+bh+20<H)?r.bottom+16:Math.max(10,r.top-bh-16); }
-    } else { x=(W-bw)/2; y=(H-bh)/2; }
-    bub.style.left=x+'px'; bub.style.top=y+'px';
+    tutPlaceBubbleSmart(bub, el ? HTUT._hole : null, el ? HTUT._ctx : null);
   }
-  window.addEventListener('resize', function(){
-    if(HTUT.active && HTUT.lesson && HTUT.step<HTUT.lesson.steps.length){
-      var s=HTUT.lesson.steps[HTUT.step]; var el=null; try{ el=s.target(); }catch(e){}
-      if(el){ homeTutHighlight(el); homeTutPlaceBubble(document.getElementById('homeTutBubble'), el); }
+  function homeTutRelayout(){
+    if(!HTUT.active || !HTUT.lesson || HTUT.step >= HTUT.lesson.steps.length) return;
+    var s=HTUT.lesson.steps[HTUT.step]; var el=null; try{ el=s.target(); }catch(e){}
+    if(el && homeTutVisible(el)){
+      HTUT._extras = tutStepExtras(s, el);
+      homeTutHighlight(el, HTUT._extras, HTUT._kind);
+      if(HTUT.mode==='guided') homeTutPlaceBubble(document.getElementById('homeTutBubble'), el);
     }
+  }
+  window.addEventListener('resize', homeTutRelayout);
+  function homeTutNudge(){
+    if(!HTUT.active || HTUT.mode!=='guided' || !HTUT.lesson) return;
+    var s=HTUT.lesson.steps[HTUT.step]; if(!s) return;
+    var hint=document.getElementById('homeTutBubbleHint');
+    if(s.advance && s.advance.type==='manual'){
+      var b=document.getElementById('homeTutBubbleNext');
+      b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge');
+      hint.textContent='👉 請按下一步'; hint.className='b-hint warn';
+    } else {
+      var r=document.getElementById('homeTutRing');
+      r.classList.remove('flash'); void r.offsetWidth; r.classList.add('flash');
+      hint.textContent='👆 請操作閃爍框內的項目'; hint.className='b-hint warn';
+    }
+  }
+  ['homeTutShadeTop','homeTutShadeBottom','homeTutShadeLeft','homeTutShadeRight','homeTutRing','homeTutBlocker'].forEach(function(id){
+    var e=document.getElementById(id); if(e) e.addEventListener('click', homeTutNudge);
   });
+  setInterval(function(){
+    if(!HTUT.active || !HTUT.lesson){ HTUT._popSig=''; return; }
+    var sig=tutPopupSig();
+    if(sig !== (HTUT._popSig||'')){ HTUT._popSig=sig; homeTutRelayout(); }
+  }, 150);
 </script>
 
 </body>
