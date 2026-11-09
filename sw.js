@@ -1,5 +1,5 @@
 // 展望系統模擬器：離線快取（有網路時優先抓最新版，沒網路時用上次存的版本）
-const CACHE = 'zhanwang-sim-v19';
+const CACHE = 'zhanwang-sim-v20';
 const FILES = ['./', './index.html', './reg.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
